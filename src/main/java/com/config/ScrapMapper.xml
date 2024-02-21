@@ -7,7 +7,7 @@
 		values(scrap_seq.NEXTVAL, #{userId},#{postId},SYSDATE)
 	</insert>
 
-	<select id="checkScrap" resultType="ScrapDTO">
+	<select id="checkScrap" resultType="ScrapDTO" parameterType="map">
 		select * from scrap where userId =#{userId} and postId=#{postId}
 	</select>
 </mapper>

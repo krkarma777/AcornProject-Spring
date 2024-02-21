@@ -4,22 +4,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.controller.board.util.AuthUtils;
-import com.controller.board.util.BoardController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.PostService;
 
-public class BoardLikeController implements BoardController {
+import lombok.RequiredArgsConstructor;
 
-    @Override
-    public String process(Map<String, String> paramMap, Map<String, Object> model) throws IOException {
+@Controller
+@RequiredArgsConstructor
+public class BoardLikeController {
+	
+	PostService service;
+
+    @PostMapping("/board/postLike")
+    public String postLike(Map<String, String> paramMap, Model model) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-
-        if (!AuthUtils.isUserLoggedIn(paramMap)) {
-            model.put("success", false);
-            model.put("message", "로그인이 필요합니다.");
-            return objectMapper.writeValueAsString(model);
-        }
 
         String postId = paramMap.get("postId");
         System.out.println(postId);
@@ -31,20 +32,16 @@ public class BoardLikeController implements BoardController {
         map.put("userId", userId);
         map.put("postId", postId);
 
-        
-        
-        PostService service = new PostService();
         int n = service.updatePostLike(map);
         Long likeCount = service.selectPagePost(postIdLong).getLikeNum();;
         if (n == 1) {
-            model.put("success", true);
-            model.put("message", "좋아요 처리 성공");
-            model.put("likeCount", likeCount);
+            model.addAttribute("success", true);
+            model.addAttribute("message", "좋아요 처리 성공");
+            model.addAttribute("likeCount", likeCount);
         } else {
-            model.put("success", false);
-            model.put("message", "이미 좋아요 누른 게시글입니다.");
+            model.addAttribute("success", false);
+            model.addAttribute("message", "이미 좋아요 누른 게시글입니다.");
         }
-
         // JSON 문자열로 변환
         return objectMapper.writeValueAsString(model);
     }

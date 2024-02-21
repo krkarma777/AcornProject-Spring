@@ -1,15 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
 
 <!-- 회원가입에 실패할 경우, 나타나는 페이지.jsp -->
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/member/register_result.css">
 
 <head>
     <meta charset="UTF-8">
     <title>회원가입 실패</title>
-    
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/member/register_result.css'/>">
 </head>
 
 <body>
@@ -24,7 +25,7 @@
     </div>
 
     <div id="sitesShortCut">
-        <a href="<%=request.getContextPath()%>/Login">로그인</a>
+        <a href="<c:url value='/Login'/>">로그인</a>
     </div>
 </body>
 </html>

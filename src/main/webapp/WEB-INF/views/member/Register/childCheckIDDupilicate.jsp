@@ -1,16 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 
 <!-- 회원가입 3단계의 자식창으로 아이디 중복 확인하는 페이지의 html -->
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/member/child.css">
 
 <head>
     <meta charset="UTF-8">
     <title>아이디 확인</title>
+	<link rel="stylesheet" type="text/css" href="<c:url value='//css/member/child.css'/>">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    
 </head>
 
 <body>
@@ -38,7 +39,7 @@
 			//아이디 중복 체크
             $.ajax({
                 type: "POST",
-                url: "<%=request.getContextPath()%>/AjaxIDDuplicate", 
+                url: "<c:url value='/AjaxIDDuplicate'/>", 
                 data: { userId: userId },
                 
                 beforeSend: function() {

@@ -1,18 +1,20 @@
 <%@page import="com.dto.MemberDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
 
 <!-- 비밀번호 찾기에서 비밀번호를 찾을 경우, 나오는 페이지의 jsp -->
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/member/ID.css">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Found PW</title>
-    
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script type="text/javascript">
+	<meta charset="UTF-8">
+	<title>Found PW</title>
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/member/ID.css'/>">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script type="text/javascript">
     
     	//비밀번호의 절반을 "*"로 가리는 코드
         function maskPassword(password) {
@@ -23,8 +25,7 @@
         
      	// 전체 비밀번호 찾기 새 창 열기
          function openAllPWWindow(userId) {
-            window.open("<%=request.getContextPath()%>/FindAllPW?userId="+userId, "전체 비밀번호 확인", "width=600,height=300");
-
+            window.open("<c:url value='/FindAllPW?userId='/>"+userId, "전체 비밀번호 확인", "width=600,height=300");
         }
         
     </script>
@@ -51,7 +52,7 @@
                 <%=dto.getUserName()%>님의 비밀번호 확인
             </button>
     <div id="sitesShortCut">
-        <a href="<%=request.getContextPath()%>/Login">로그인</a> 
+        <a href="<c:url value='/Login'/>">로그인</a> 
     </div>
 
 </body>

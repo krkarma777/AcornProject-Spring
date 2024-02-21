@@ -27,6 +27,18 @@
 	<resources location="/WEB-INF/views/css/" mapping="/css/**"/>
 	<resources location="/WEB-INF/views/js/" mapping="/js/**"/>
 	
+	<!-- 임시 위치 설정 -->
+	<view-controller path="/" view-name="member/Login/loginMain"/>
+
+	<!-- 로그인/회원가입 파트 -->	
+	<view-controller path="/Login" view-name="member/Login/loginMain"/>
+	<view-controller path="/FindInfo" view-name="member/Find_Info/searchMemberData"/>
+	<view-controller path="/FindAllPW" view-name="member/Find_Info/childFindAllPW"/>
+	<view-controller path="/IdDupilicate" view-name="member/Register/childCheckIDDupilicate"/>
+	
+	
+	
+	
 	<context:component-scan base-package="com" />
 	
 	

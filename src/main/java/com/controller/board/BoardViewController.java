@@ -4,40 +4,43 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.controller.board.util.BoardController;
 import com.dto.board.PageDTO;
 import com.dto.board.PostPageDTO;
 import com.service.PostService;
 
 // 게시판 뷰 컨트롤러 구현
-public class BoardViewController implements BoardController {
+@Controller
+public class BoardViewController {
     
     private String postBoard; // 게시판 이름
-
-    // 생성자: 게시판 이름을 초기화
-    public BoardViewController(String postBoard) {
-        this.postBoard = postBoard;
-    }
-
-    // 요청을 처리하는 메소드
-    @Override
-    public String process(Map<String, String> paramMap, Map<String, Object> model) {
-
+	
+	@Autowired
+	PostService service;
+	
+	@GetMapping("/board/{postBoard}")
+	public String postBoard(@PathVariable("postBoard") String postBoard, Map<String, String> paramMap, Model model) {
         // 현재 페이지 번호 설정
-        String curPageStr = paramMap.get("curPage");
+        String curPageStr = paramMap.get("curPage");//
+        
         int curPage = 1; // 기본값
         if (curPageStr != null && !curPageStr.isEmpty()) {
             curPage = Integer.parseInt(curPageStr);
         }
-
-        String postCategoryId = paramMap.get("pc");
+        
+        String postCategoryId = paramMap.get("pc"); //get?pc=
         
         // 페이지당 게시글 수 설정
         int perPage = 20;
         int offset = (curPage - 1) * perPage;
-
-        // 서비스 객체 생성
-        PostService service = new PostService();
         
         // 요청에 따른 매개변수 맵 설정
         HashMap<String, Object> map = new HashMap<>();
@@ -46,7 +49,7 @@ public class BoardViewController implements BoardController {
         map.put("perPage", perPage);
         map.put("curPage", curPage);
         map.put("postCategoryId", postCategoryId);
-
+        
         // 검색 조건 추가
         searchBoard(paramMap, map);
         
@@ -78,21 +81,22 @@ public class BoardViewController implements BoardController {
 		}});
 
         // 모델에 페이지 정보와 게시판 이름 추가
-        model.put("pDTO", pageDTO);
-        model.put("postBoard", postBoard);
-        model.put("hotList", hotList);
-        model.put("popularListCategory", popularListCategory);
-        model.put("popularListAll", popularListAll);
+		model.addAttribute("pDTO", pageDTO);
+		model.addAttribute("postBoard", postBoard);
+		model.addAttribute("hotList", hotList);
+		model.addAttribute("popularListCategory", popularListCategory);
+		model.addAttribute("popularListAll", popularListAll);
         
-        // 뷰 페이지 이름 반환
-        return "board/boardView";
-    }
+        
+		return "board/boardView";
+	}//
+	
 
     // 검색 기능을 처리하는 메소드
     private void searchBoard(Map<String, String> paramMap, HashMap<String, Object> map) {
         // 검색 위치와 검색어 가져오기
-        String searchPosition = paramMap.get("selectSearchPositionText");
-        String searchText = paramMap.get("inputSearchFreeText");
+        String searchPosition = paramMap.get("selectSearchPositionText"); // get
+        String searchText = paramMap.get("inputSearchFreeText"); // get
 
         // 검색 위치와 검색어가 있을 경우에만 검색 조건 추가
         if (searchPosition != null && searchText != null) {
@@ -116,9 +120,11 @@ public class BoardViewController implements BoardController {
                 }
             }
         }
-    }
+    }//
+    
+    
     private void sortIndex(Map<String, String> paramMap, HashMap<String, Object> map) {
-    	String orderType = paramMap.get("sortIndex");
+    	String orderType = paramMap.get("sortIndex"); //get
     	if (orderType != null) {
     		switch (orderType) {
     		case "likeNum": {
@@ -131,5 +137,5 @@ public class BoardViewController implements BoardController {
     		}
     		}
     	}
-    }
+    }//
 }

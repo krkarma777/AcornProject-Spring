@@ -3,6 +3,7 @@ package com.service;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +15,11 @@ import com.dto.board.PostDTO;
 import com.dto.board.PostPageDTO;
 import com.dto.board.PostSaveDTO;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class PostService {
 
+	@Autowired
 	PostDAO dao;
 
 	// 글 추가

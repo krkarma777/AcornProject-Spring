@@ -1,18 +1,18 @@
 <%@page import="com.dto.MemberDTO"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
-<head>
 
 <!-- 모든 비밀번호를 출력하는 창(종료 창) -->
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/member/ID.css">
-
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
+<head>
+	<meta charset="UTF-8">
+	<title>비밀번호 찾기</title>
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/member/ID.css'/>">
 </head>
 <body>
 
@@ -27,7 +27,7 @@ MemberDTO dto = (MemberDTO) request.getAttribute("foundUserInfo");
     <p>확인 후 로그인 부탁드립니다.</p>
 
 <div id="sitesShortCut">
-    <a href="<%=request.getContextPath()%>/Login">로그인</a> 
+    <a href="<c:url value='/Login'/>">로그인</a> 
 </div>
 
 </body>

@@ -20,7 +20,7 @@ public class LoginController {
 	LoginService serv;
 
 	//로그인
-	@RequestMapping(value = "/Mypage", method = RequestMethod.POST)
+	@RequestMapping(value = "/MyPage", method = RequestMethod.POST)
 	public String LoginToMypage(String userId, String userPw, HttpSession session) {
 		MemberDTO dto = serv.login(userId, userPw);
 

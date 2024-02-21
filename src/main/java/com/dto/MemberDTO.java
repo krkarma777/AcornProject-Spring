@@ -30,7 +30,6 @@ public class MemberDTO implements Serializable{
 	}
 	public MemberDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public MemberDTO(String userId, String userPw, String userName, String userSSN1, String userSSN2, String userGender,
 			String nickname, String userPhoneNum1, String userPhoneNum2, String userPhoneNum3, String userEmailId,

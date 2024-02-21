@@ -120,4 +120,9 @@ public class PostService {
 
 	}
 
+	public PostSaveDTO selectPostSave(String postSaveId) {
+		PostSaveDTO postsave = dao.selectPostSave(postSaveId);
+		return postsave;
+	}
+
 }

@@ -225,5 +225,11 @@
 		DELETE FROM postSaveDB WHERE postSaveId = ${postSaveId}
 	</delete>
 	
+	<!-- 임시글 불러오기 -->
+	<select id="selectPostSave" parameterType="String" resultType="postSaveDTO">
+		select postSaveId, userId, postSaveTitle, postSaveText, TO_CHAR(postSaveDate, 'YYYY-MM-DD HH24:MI:SS') as postSaveDate
+		from postSaveDB 
+		where postSaveId = #{postSaveId}
+	</select>
 	
 </mapper>

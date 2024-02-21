@@ -8,9 +8,9 @@
 <html>
 <head>
 <%
-String userId = (String) request.getAttribute("userId");
-String boardName = request.getParameter("bn");
-String savecount = request.getParameter("savecount");
+	String userId = (String) request.getAttribute("userId");
+	String boardName = request.getParameter("bn");
+	String savecount = request.getParameter("savecount");
 %>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -169,40 +169,13 @@ body {
 	font-family: 'Pretendard-Regular';
 }
 
-/* 임시저장글 모달창 스타일 */
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1050;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-/* 모달 내용 스타일 */
+/* 임시저장글 모달창 내용 스타일 */
 .modal-content {
 	background-color: #fefefe;
 	margin: 15% auto;
 	padding: 20px;
 	border: 1px solid #888;
 	width: 80%;
-}
-
-/* 닫기 버튼 스타일 */
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
 }
 
 /* 임시저장 삭제 버튼 스타일 */
@@ -232,33 +205,36 @@ body {
 				validateForm(event);
 			});
 			
-			
 			// 임시저장 버튼 클릭 시 호출되는 함수
 			$('#save').click(save);
 			
-			
-			
-			//===============임시저장 모달창 설정 시작
-			//저장갯수 버튼 클릭 시 모달창 나타내기
-			$('#saveModal').click(function(){
-			    // 모달 창을 보이도록 설정
-			    $('#myModal').css('display', 'block');
-			});
-			
-			// 모달 닫기 버튼 클릭 시 모달창 숨기기
-			$('.close').click(function() {
-			    // 모달 창을 감추도록 설정
-			    $('#myModal').css('display', 'none');
-			});
-								
-			//===============임시저장 모달창 설정 끝
-			
-
-		
-
-				
+			//임시저장목록 버튼 클릭 시 모달창 나타내기
+			$('#saveModal').click(function(){});
 			
 });//end doc
+
+	// 임시저장글 불러오기
+	function loadPostSave(postSaveId) {
+	    $.ajax({
+	        type: 'post',
+	        url: '/Acorn/board/saveSelect',
+	        dataType : 'json',
+	        data: {
+	            postSaveId: postSaveId
+	        },
+	        success: function(response) {
+	        	alert('임시저장글 선택');
+	        	// 모달 창을 숨김
+	            
+	            // 성공 시 제목과 내용 입력란에 데이터를 채움
+	            $('#postTitle').val(response.postSaveTitle);
+	            $('#postText').val(response.postSaveText);
+	        },
+	        error: function(xhr, status, error) {
+	            console.log(error);
+	        }
+	    });//end ajax
+	}//end loadSavePost	
 		
 	// 임시저장 삭제 함수
 		function deleteSave(postSaveId){
@@ -280,11 +256,9 @@ body {
 	                console.error(xhr.responseText);
 	            }
 	        }); //end ajax
-	    }
+	  	  }
 		
-		
-		
-	};//end 임시저장 삭제 함수
+		};//end 임시저장 삭제 함수
 		
 		//임시저장 버튼 클릭 시 호출되는 함수
 		function save() {
@@ -521,7 +495,7 @@ body {
 				%>
 				<tr>
 					<td style="text-align: center;"><%=n%></td>
-					<td><%=postSaveTitle%></td>
+					<td><b onclick="loadPostSave(<%=postSaveId%>)"><%=postSaveTitle%></b></td>
 					<td style="text-align: center;"><%=postSaveDate%></td>
 					<td style="text-align: center;">
 						<button class="delete-btn" onclick="deleteSave(<%=postSaveId%>)">

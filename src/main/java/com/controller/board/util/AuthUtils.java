@@ -19,7 +19,7 @@ public class AuthUtils {
         return "yes".equals(isLogin);
     }
     
-    public boolean isUserAuthorized(HttpSession session, PostPageDTO post) {
+    public boolean isUserAuthorized(HttpSession session, IPost post) {
     	MemberDTO member = (MemberDTO)session.getAttribute("loginUser");
     	String userId = member.getUserId();
         return post.getUserId().equals(userId);

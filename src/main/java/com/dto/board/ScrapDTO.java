@@ -2,6 +2,9 @@ package com.dto.board;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("ScrapDTO")
 public class ScrapDTO {
 
 	private Long scrapId;

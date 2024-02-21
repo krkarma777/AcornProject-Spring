@@ -19,10 +19,10 @@
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp2.BasicDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="${oracle.jdbc}"></property>
+		<property name="driverClassName" value="${oracle.driver}"></property>
 		<property name="url" value="${oracle.url}"></property>
-		<property name="username" value="${oracle.userid}"></property>
-		<property name="password" value="${oracle.passwd}"></property>
+		<property name="username" value="${oracle.username}"></property>
+		<property name="password" value="${oracle.password}"></property>
 	</bean>
 
 	<!-- transaction의 시작 -->
@@ -58,6 +58,7 @@
 				<value>com.dto.MemberDTO</value>
 				<value>com.dto.RateDTO</value>
 				<value>com.dto.ReportDTO</value>
+				<value>com.dto.ReviewDTO</value>
 				<value>com.dto.board.LikeDTO</value>
 				<value>com.dto.board.MessageDTO</value>
 				<value>com.dto.board.PageDTO</value>

@@ -2,6 +2,8 @@ package com.dto.board;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
+@Alias("PostDTO")
 public class PostDTO implements IPost {
     private Long postId;
     private String postBoard;

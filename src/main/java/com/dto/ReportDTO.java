@@ -1,5 +1,8 @@
 package com.dto;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("ReportDTO")
 public class ReportDTO {
 	String postId;
 	String reason;

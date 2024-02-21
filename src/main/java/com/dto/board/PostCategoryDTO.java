@@ -1,7 +1,11 @@
 package com.dto.board;
 
+
 import java.sql.Timestamp;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("PostCategoryDTO")
 public class PostCategoryDTO {
 	
 	private Long categoryId;

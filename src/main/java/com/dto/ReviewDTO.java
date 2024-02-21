@@ -1,6 +1,9 @@
 package com.dto;
 
+import org.apache.ibatis.type.Alias;
+
 // review를 불러올 때 별점, 작성자 닉네임까지 한번의 sql로 받아오기 위해 만든 DTO
+@Alias("ReviewDTO")
 public class ReviewDTO {
 	private Long postId;
 	private String postBoard;

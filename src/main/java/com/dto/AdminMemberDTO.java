@@ -1,5 +1,8 @@
 package com.dto;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("AdminMemberDTO")
 public class AdminMemberDTO {
 	private String userid;
 	private String userpw;

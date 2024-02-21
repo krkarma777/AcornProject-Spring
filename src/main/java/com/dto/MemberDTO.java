@@ -2,6 +2,9 @@ package com.dto;
 
 import java.io.Serializable;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("MemberDTO")
 public class MemberDTO implements Serializable{
 	private String userId;
 	private String userPw;

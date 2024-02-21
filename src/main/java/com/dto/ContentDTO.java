@@ -1,5 +1,8 @@
 package com.dto;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("ContentDTO")
 public class ContentDTO {
 	private Long contId;
 	private String contTitle;

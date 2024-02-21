@@ -3,6 +3,9 @@ package com.dto.board;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("PostSaveDTO")
 public class PostSaveDTO {
 
 	private Long postSaveId;

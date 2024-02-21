@@ -1,5 +1,8 @@
 package com.dto.board;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("PostInfoDTO")
 public class PostInfoDTO {
 	private long postId;
 	private long viewNum;

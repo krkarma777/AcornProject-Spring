@@ -1,5 +1,8 @@
 package com.dto.board;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("LikeDTO")
 public class LikeDTO {
     private String userId;
     private Long postId;

@@ -1,5 +1,8 @@
 package com.dto.board;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("MessageDTO")
 public class MessageDTO {
 	
 	private Long messageId;

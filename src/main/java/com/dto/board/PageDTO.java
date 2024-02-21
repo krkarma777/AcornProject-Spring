@@ -1,7 +1,11 @@
 package com.dto.board;
 
+
 import java.util.List;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("PageDTO")
 public class PageDTO<T> {
     private List<T> list; // 현재 페이지에 해당하는 데이터 목록
     private int curPage; // 현재 페이지 번호

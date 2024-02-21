@@ -437,7 +437,7 @@ body {
 </head>
 <body>
 	<!-- 네비게이션바 -->
-	<jsp:include page="//common/navbar.jsp"></jsp:include>
+<%-- 	<jsp:include page="//common/navbar.jsp"></jsp:include> --%>
 
 
 	<div class="container mt-5 editor-wrapper">

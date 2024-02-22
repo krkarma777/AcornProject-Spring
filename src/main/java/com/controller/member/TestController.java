@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.dto.MemberDTO;
 import com.service.member.LoginService;
@@ -22,9 +23,12 @@ public class TestController {
 
 	//멤버 리스트 찾기
 	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
-	public String memberList(HttpServletRequest request, HttpSession session) {
+	public ModelAndView memberList() {
+		ModelAndView mav = new ModelAndView();
 		List<MemberDTO> list = serv.selectAll();
-		session.setAttribute("memberList", list);
-		return "member/Test/test_view_list";
+		mav.addObject("memberList", list);
+		mav.setViewName("member/Test/test_view_list");
+	
+		return mav;
 	}
 }

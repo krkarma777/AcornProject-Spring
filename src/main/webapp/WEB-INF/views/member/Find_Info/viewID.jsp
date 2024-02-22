@@ -17,13 +17,9 @@
 
 <body>
 
-	<%
-	MemberDTO dto = (MemberDTO) request.getAttribute("found_userId");
-	%>
-
 	<h2>찾은 아이디 정보</h2>
-	<div><%=dto.getUserName()%>님의 아이디는
-		<%=dto.getUserId()%>입니다.
+	<div>${dto.getUserName()}님의 아이디는
+		${dto.getUserId()}입니다.
 	</div>
 	<div id="sitesShortCut">
 		<a href="<c:url value='/Login'/>">로그인</a> | <a href="<c:url value='/FindInfo'/>">회원정보 찾기</a>

@@ -624,9 +624,9 @@ $(document).keydown(function(e) {
 	
 </script>
 <body>
-s
+
 	<!-- 네비게이션바 -->
-<%-- 	<jsp:include page="//common/navbar.jsp"></jsp:include> --%>
+<jsp:include page="//common/navbar.jsp"></jsp:include>
 	<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 		<div class="container-fluid">
 			로고
@@ -678,7 +678,7 @@ s
 				<div class="col-md-1"><%= i+1 %></div><!-- 순위  -->
 				<div class="col-md-2"><%= post.getCategoryName() %></div>
 				<div class="col-md-7">
-				<a href="/Acorn/board/content?postId=<%=post.getPostId()%>&bn=<%=postBoard%>" class="post-title">
+				<a href="/acorn/board/content?postId=<%=post.getPostId()%>&bn=<%=postBoard%>" class="post-title">
 				<%=post.getPostTitle()%></a>
 				<%
 						if (post.getCommentCount() != 0L) {
@@ -712,7 +712,7 @@ s
 				<div class="col-md-1"><%= i+1 %></div><!-- 순위  -->
 				<div class="col-md-2"><%= postCategory %></div>
 				<div class="col-md-7">
-				<a href="/Acorn/board/content?postId=<%=post.getPostId()%>&bn=<%=postBoard%>" class="post-title">
+				<a href="/acorn/board/content?postId=<%=post.getPostId()%>&bn=<%=postBoard%>" class="post-title">
 
 				<%=post.getPostTitle()%></a>
 				<%
@@ -816,7 +816,7 @@ s
 
 
 					<div class="btn-group" role="group" aria-label="Category Tabs">
-					     <a href="/Acorn/board/<%=postBoard%>?pc=1<% 
+					     <a href="/acorn/board/<%=postBoard%>?pc=1<% 
 					if(request.getParameter("selectSearchPositionText") != null && request.getParameter("inputSearchFreeText") != null)
 							{
 						String sp = request.getParameter("selectSearchPositionText");
@@ -826,11 +826,11 @@ s
 					     <%
 					     }; %>
 					     " class="btn">일반</a>
-					     <a href="/Acorn/board/<%=postBoard%>?pc=2" class="btn">신작</a>
-					     <a href="/Acorn/board/<%=postBoard%>?pc=3" class="btn">후기</a>
-					     <a href="/Acorn/board/<%=postBoard%>?pc=4" class="btn">추천</a>
-					     <a href="/Acorn/board/<%=postBoard%>?pc=5" class="btn">토론</a>
-					     <a href="/Acorn/board/<%=postBoard%>?pc=6" class="btn">해외</a>
+					     <a href="/acorn/board/<%=postBoard%>?pc=2" class="btn">신작</a>
+					     <a href="/acorn/board/<%=postBoard%>?pc=3" class="btn">후기</a>
+					     <a href="/acorn/board/<%=postBoard%>?pc=4" class="btn">추천</a>
+					     <a href="/acorn/board/<%=postBoard%>?pc=5" class="btn">토론</a>
+					     <a href="/acorn/board/<%=postBoard%>?pc=6" class="btn">해외</a>
 					</div>
 					
 					
@@ -855,7 +855,7 @@ s
 										class="font-black no-underline">추천</a>
 								</div>
 							</div>
-							<%-- <a href="/Acorn/board/<%= postBoard %>?sortIndex=likeNum"> --%>
+							<%-- <a href="/acorn/board/<%= postBoard %>?sortIndex=likeNum"> --%>
 						</div>
 					</div>
 					<!-- 인기글 출력부분 -->
@@ -895,9 +895,9 @@ s
 							class="list-group-item list-group-item-action"
 							style="background-color: #dff0d8;">
 							<div class="row">
-								<div class="col-md-1 text-center-align"><a href="/Acorn/board/<%=postBoard%>?pc=<%=poscCategoryId %>" class="font-black no-underline"><%= categoryName %></a></div>
+								<div class="col-md-1 text-center-align"><a href="/acorn/board/<%=postBoard%>?pc=<%=poscCategoryId %>" class="font-black no-underline"><%= categoryName %></a></div>
 								<div class="col-md-6">
-								<a href="/Acorn/board/content?postId=<%=post.getPostId()%>&bn=<%=postBoard%>"
+								<a href="/acorn/board/content?postId=<%=post.getPostId()%>&bn=<%=postBoard%>"
 					               class="post-title">
 					               
 					               				<%
@@ -909,12 +909,12 @@ s
 		            
 		            if (imgExist&&!videoExist) {
 		                %>
-		                <img src="/Acorn/boardImage/picture.png" alt="description" class="post-thumbnail-picture">
+		                <img src="/acorn/boardImage/picture.png" alt="description" class="post-thumbnail-picture">
 		                <%
 		                // 이미지 태그가 포함된 경우의 처리
 		            }
 		            if(videoExist){%>
-		            	<img src="/Acorn/boardImage/video.png" alt="description" class="post-thumbnail-video">
+		            	<img src="/acorn/boardImage/video.png" alt="description" class="post-thumbnail-video">
 		            <%	
 		            }
 		            %>
@@ -1010,9 +1010,9 @@ s
 					%>
 					<div class="list-group-item list-group-item-action">
 					    <div class="row">
-					        <div class="col-md-1 text-center-align"><a href="/Acorn/board/<%=postBoard%>?pc=<%=poscCategoryId %>" class="font-black no-underline"><%= categoryName %></a></div>
+					        <div class="col-md-1 text-center-align"><a href="/acorn/board/<%=postBoard%>?pc=<%=poscCategoryId %>" class="font-black no-underline"><%= categoryName %></a></div>
 					        <div class="col-md-6">
-					            <a href="/Acorn/board/content?postId=<%=post.getPostId()%>&bn=<%=postBoard%>"
+					            <a href="/acorn/board/content?postId=<%=post.getPostId()%>&bn=<%=postBoard%>"
 					               class="post-title">
 					               				<%
 		            
@@ -1023,12 +1023,12 @@ s
 		            
 		            if (imgExist&&!videoExist) {
 		                %>
-		                <img src="/Acorn/boardImage/picture.png" alt="description" class="post-thumbnail-picture">
+		                <img src="/acorn/boardImage/picture.png" alt="description" class="post-thumbnail-picture">
 		                <%
 		                // 이미지 태그가 포함된 경우의 처리
 		            }
 		            if(videoExist){%>
-		            	<img src="/Acorn/boardImage/video.png" alt="description" class="post-thumbnail-video">
+		            	<img src="/acorn/boardImage/video.png" alt="description" class="post-thumbnail-video">
 		            <%	
 		            }
 		            %>
@@ -1078,7 +1078,7 @@ s
 					<div class="mb-3 search-write-group margin-top">
 						<!-- 검색창 -->
 						<div class="search-input-group">
-							<form id="formSearchFree" action="/Acorn/board/<%=postBoard%>"
+							<form id="formSearchFree" action="/acorn/board/<%=postBoard%>"
 								class="d-flex">
 								<div class="col-md-4 pe-1">
 									<select class="form-select search-form-control"
@@ -1102,7 +1102,7 @@ s
 					
 						<!-- 글쓰기 버튼 -->
 						<div>
-							<a href="/Acorn/board/write?bn=<%=postBoard%>">
+							<a href="/acorn/board/write?bn=<%=postBoard%>">
 								<button type="button" class="btn write-button custom-btn" >글쓰기</button>
 							</a>
 						</div>
@@ -1133,7 +1133,7 @@ s
 							if (curPage > 1) {
 							%>
 							<li class="page-item"><a class="page-link"
-								href="/Acorn/board/<%=postBoard%>?curPage=<%=prevPage%><%if (sortIndex != null) {%>&sortIndex=<%=sortIndex%><%}%><%if (inputSearchFreeText != null && selectSearchPositionText != null) {%>&selectSearchPositionText=<%=selectSearchPositionText%>&inputSearchFreeText=<%=inputSearchFreeText%><%}%>">
+								href="/acorn/board/<%=postBoard%>?curPage=<%=prevPage%><%if (sortIndex != null) {%>&sortIndex=<%=sortIndex%><%}%><%if (inputSearchFreeText != null && selectSearchPositionText != null) {%>&selectSearchPositionText=<%=selectSearchPositionText%>&inputSearchFreeText=<%=inputSearchFreeText%><%}%>">
 									&laquo; 이전 </a></li>
 							<%
 							} else {
@@ -1150,7 +1150,7 @@ s
 							%>
 							<li class="page-item <%=i == curPage ? "active" : ""%>"><a
 								class="page-link"
-								href="/Acorn/board/<%=postBoard%>?curPage=<%=i%><%if (sortIndex != null) {%>&sortIndex=<%=sortIndex%><%}%><%if (inputSearchFreeText != null && selectSearchPositionText != null) {%>&selectSearchPositionText=<%=selectSearchPositionText%>&inputSearchFreeText=<%=inputSearchFreeText%><%}%>">
+								href="/acorn/board/<%=postBoard%>?curPage=<%=i%><%if (sortIndex != null) {%>&sortIndex=<%=sortIndex%><%}%><%if (inputSearchFreeText != null && selectSearchPositionText != null) {%>&selectSearchPositionText=<%=selectSearchPositionText%>&inputSearchFreeText=<%=inputSearchFreeText%><%}%>">
 									<%=i%>
 							</a></li>
 							<%
@@ -1162,7 +1162,7 @@ s
 							if (nextPage <= totalPage) {
 							%>
 							<li class="page-item"><a class="page-link"
-								href="/Acorn/board/<%=postBoard%>?curPage=<%=nextPage%><%if (sortIndex != null) {%>&sortIndex=<%=sortIndex%><%}%><%if (inputSearchFreeText != null && selectSearchPositionText != null) {%>&selectSearchPositionText=<%=selectSearchPositionText%>&inputSearchFreeText=<%=inputSearchFreeText%><%}%>">
+								href="/acorn/board/<%=postBoard%>?curPage=<%=nextPage%><%if (sortIndex != null) {%>&sortIndex=<%=sortIndex%><%}%><%if (inputSearchFreeText != null && selectSearchPositionText != null) {%>&selectSearchPositionText=<%=selectSearchPositionText%>&inputSearchFreeText=<%=inputSearchFreeText%><%}%>">
 									다음 &raquo; </a></li>
 							<%
 							} else {
@@ -1257,7 +1257,7 @@ s
 	        var currentSortIndex = getCurrentSortIndex();
 	
 	        // URL 생성
-	        var url = "/Acorn/board/<%=postBoard%>?curPage=<%=curPage%>";
+	        var url = "/acorn/board/<%=postBoard%>?curPage=<%=curPage%>";
 
 			// 첫 번째 클릭시 sortIndex 추가, 두 번째 클릭시 sortIndex 제거
 			if (currentSortIndex !== sortType) {

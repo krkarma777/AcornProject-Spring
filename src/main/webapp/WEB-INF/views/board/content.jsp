@@ -53,7 +53,7 @@ function scrollToComments() {
 <script type="text/javascript">
 $("document").ready(function() {
     $("#commentHead").click(function() {
-        var url = "/Acorn/board/postLike?postId=" + <%= request.getParameter("postId")%>;
+        var url = "/acorn/board/postLike?postId=" + <%= request.getParameter("postId")%>;
 
         $.ajax({
             type: "POST",
@@ -81,7 +81,7 @@ $("document").ready(function() {
     %>
     $("#scrap").on("click",function(){
         $.ajax({
-            url:"/Acorn/scrap",
+            url:"/acorn/scrap",
             type:"post",
             dataType:"json", // 서버로부터 JSON 응답을 기대함
             data : {
@@ -324,7 +324,7 @@ body{
 
 
 	<!-- 네비게이션바 -->
-<%-- 	<jsp:include page="//common/navbar.jsp"></jsp:include> --%>
+=<jsp:include page="//common/navbar.jsp"></jsp:include>=
 	<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 		<div class="container-fluid">
 			로고
@@ -411,8 +411,8 @@ body{
       </div>
       <div class="modal-footer">
        
-        <button type="button" class="btn btn-primary" onclick="location.href='/Acorn/Login';">로그인</button>
-        <button type="button" class="btn btn-primary" onclick="location.href='/Acorn/RegisterTerms';">회원가입</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='/acorn/Login';">로그인</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='/acorn/RegisterTerms';">회원가입</button>
       </div>
     </div>
   </div>
@@ -426,7 +426,7 @@ body{
     
     <button type="button" class="btn btn-action btn-spacing" id="scrap">스크랩</button>
     <div>
-        <a href="/Acorn/board/<%=request.getParameter("bn")%>"><button type="button" class="btn btn-action btn-spacing" >목록</button></a>
+        <a href="/acorn/board/<%=request.getParameter("bn")%>"><button type="button" class="btn btn-action btn-spacing" >목록</button></a>
     </div>
 
     <!-- 오른쪽에 위치할 기타 버튼들 -->
@@ -452,8 +452,8 @@ body{
       </div>
       <div class="modal-footer">
        
-        <button type="button" class="btn btn-primary" onclick="location.href='/Acorn/Login';">로그인</button>
-        <button type="button" class="btn btn-primary" onclick="location.href='/Acorn/RegisterTerms';">회원가입</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='/acorn/Login';">로그인</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='/acorn/RegisterTerms';">회원가입</button>
       </div>
     </div>
   </div>
@@ -462,7 +462,7 @@ body{
 <%
     } else {
 %>
-    <a href="/Acorn/board/write?postId=<%=request.getParameter("postId")%>&bn=<%=request.getParameter("bn")%>"><button type="button" class="btn btn-action btn-spacing">글쓰기</button></a>
+    <a href="/acorn/board/write?postId=<%=request.getParameter("postId")%>&bn=<%=request.getParameter("bn")%>"><button type="button" class="btn btn-action btn-spacing">글쓰기</button></a>
 <%
     }
 %> 
@@ -471,8 +471,8 @@ body{
     System.out.println(mismatchError);
     if(mismatchError==null && session.getAttribute("loginUser")!=null){
     %>
-    <a href="/Acorn/board/edit?postId=<%=request.getParameter("postId")%>&bn=<%=request.getParameter("bn")%>"><button type="button" class="btn btn-action btn-spacing">수정</button></a>
-    <a href="/Acorn/board/delete?postId=<%=request.getParameter("postId")%>&bn=<%=request.getParameter("bn")%>"><button type="button" class="btn btn-action btn-spacing">삭제</button></a>
+    <a href="/acorn/board/edit?postId=<%=request.getParameter("postId")%>&bn=<%=request.getParameter("bn")%>"><button type="button" class="btn btn-action btn-spacing">수정</button></a>
+    <a href="/acorn/board/delete?postId=<%=request.getParameter("postId")%>&bn=<%=request.getParameter("bn")%>"><button type="button" class="btn btn-action btn-spacing">삭제</button></a>
 	<%}%>
 </div>
 

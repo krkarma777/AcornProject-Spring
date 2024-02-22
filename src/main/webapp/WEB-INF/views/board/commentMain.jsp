@@ -60,7 +60,7 @@ if(dto != null){
 		$.ajax({
 			
 			type: "post",
-			url: "/Acorn/CommetInsertServlet",
+			url: "/acorn/CommetInsertServlet",
 			data:{
 				postId : $("#postidComment").val(),
 				userId : $.trim($("#useridComment").val()),
@@ -104,7 +104,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 		$.ajax({
 			
 			type: "post",
-			url: "/Acorn/CommentUpdateServlet",
+			url: "/acorn/CommentUpdateServlet",
 			data:{
 				//댓글 수정(삭제)를 위해서 서버로 comid를 넘겨주고 있음
 				comId : $(this).attr("id"),
@@ -139,7 +139,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 		$.ajax({
 				
 				type: "post",
-				url: "/Acorn/CommetDeleteServlet",
+				url: "/acorn/CommetDeleteServlet",
 				data:{
 					//댓글 삭제를 위해서 서버로 comid를 넘겨주고 있음
 					comId : comId
@@ -198,7 +198,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 	$.ajax({
 		
 		type: "post",
-		url: "/Acorn/CommentUpdateServlet",
+		url: "/acorn/CommentUpdateServlet",
 		data:{
 			//댓글 수정(삭제)를 위해서 서버로 comid를 넘겨주고 있음
 			comId : $(this).attr("data-xxx"),
@@ -242,7 +242,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 		 $.ajax({
 				
 				type: "post",
-				url: "/Acorn/CommentSelectAllServlet",
+				url: "/acorn/CommentSelectAllServlet",
 		        data: {
 		            postId: postId // postid 값을 요청에 포함시킴
 		        },
@@ -409,7 +409,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 			$.ajax({
 			
 			type: "post",
-			url: "/Acorn/ReplyCommentInsertServlet",
+			url: "/acorn/ReplyCommentInsertServlet",
 			data:{
 				aboveComId : aboveComId, //부모댓글id
 				postId : postId, //게시글
@@ -444,7 +444,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 			
 			type: "post",
 			async: false, 
-			url: "/Acorn/ReplyCommentSelectListServlet",
+			url: "/acorn/ReplyCommentSelectListServlet",
 			data:{
 				comId : comId
 				},

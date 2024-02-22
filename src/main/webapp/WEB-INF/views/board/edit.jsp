@@ -170,7 +170,7 @@ $(document).ready(function() {
 	    // AJAX 요청
 	    $.ajax({
 	        type: 'POST',
-	        url: '/Acorn/board/save',
+	        url: '/acorn/board/save',
 	        data: {
 	            postTitle: title,
 	            postText: content,
@@ -268,7 +268,7 @@ $(document).ready(function() {
 					
 					        // AJAX 요청으로 서버에 파일 업로드
 					        $.ajax({
-					            url: '/Acorn/upload', // 서버의 파일 업로드 URL
+					            url: '/acorn/upload', // 서버의 파일 업로드 URL
 					            type : 'POST',
 					            data : formData,
 					            processData : false,
@@ -332,7 +332,7 @@ $(document).ready(function() {
 
 
 	<div class="container mt-5 editor-wrapper">
-		<form method="post" action="/Acorn/board/edit" onsubmit="return validateForm();">
+		<form method="post" action="/acorn/board/edit" onsubmit="return validateForm();">
 					<!-- 말머리 선택 버튼 그룹 -->
 			<div class="mb-3 btn-group" role="group">
 			<% if(boardName.equals("movie")) {%>

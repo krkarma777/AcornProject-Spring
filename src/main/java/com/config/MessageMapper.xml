@@ -7,11 +7,11 @@
 	    VALUES (MessageId_seq.nextval,#{senderId}, #{receiverId}, #{messageContent}, CURRENT_TIMESTAMP, 'N')
 	</insert>
 
-	<select id="selectSendMessage" parameterType="string" resultType="MessageDTO">
+	<select id="selectSendedMessage" parameterType="string" resultType="MessageDTO">
 	select * from messages where senderId = #{senderId}
 	</select>
 	
-	<select id="selectReceiveMessage" parameterType="string" resultType="MessageDTO">
+	<select id="selectReceivedMessage" parameterType="string" resultType="MessageDTO">
 	select * from messages where receiverId = #{receiverId}
 	</select>
 </mapper>

@@ -1,58 +1,62 @@
 package com.controller.board;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.http.HttpSession;
 
-import com.controller.board.util.BoardController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.dto.MemberDTO;
 import com.dto.board.MessageDTO;
 import com.service.MessageService;
 
-public class MessageController implements BoardController  {
+@Controller
+public class MessageController {
+	
+	@Autowired
+	MessageService memberService;
+	
+	
+	@GetMapping("/board/note")
+	public String messageForm(HttpSession session, Model model) {
+		
+		MemberDTO dto = (MemberDTO)session.getAttribute("loginUser");
+        String senderId = dto.getUserId();
 
-	@Override
-	public String process(Map<String, String> paramMap, Map<String, Object> model) throws IOException {
+    	List<MessageDTO> sList = memberService.selectSendedMessage(senderId);
+		model.addAttribute("sendedMessage",sList);
 		
-        String senderId = paramMap.get("userId");
+		List<MessageDTO> rList = memberService.selectReceivedMessage(senderId);
+		model.addAttribute("receivedMessage", rList);
 
-        
-		MessageService mService = new MessageService();
-    	List<MessageDTO> sList = mService.selectSendMessage(senderId);
-		model.put("sendedMessage", sList);
-		
-		
-		String receiverId=paramMap.get("receiverId");
-		List<MessageDTO> rList = mService.selectReceiveMessage(senderId);
-		model.put("receivedMessage", rList);
+		return "board/message";
+	}
+	
+		// post
+		@PostMapping("/board/note")
+		public String messageForm(@RequestParam("receiverId")String receiverId,
+				@RequestParam("messageContent")String messageContent,
+				HttpSession session) {
+			
+			MemberDTO dto = (MemberDTO)session.getAttribute("loginUser");
+			String senderId = dto.getUserId();
+			
+			HashMap<String, String> map = new HashMap<>(); 
+			map.put("senderId", senderId);
+			map.put("receiverId", receiverId);
+			map.put("messageContent", messageContent);
 		
 	
-		
-		String messageContent=paramMap.get("messageContent");
-		if(receiverId==null || messageContent==null) {
+			memberService.insert(map);
 			
-			return "board/message";
-			
+			return "redirect:note";
 		}
 
-		// post
-		
-		HashMap<String, String> map = new HashMap<>(); 
-		map.put("senderId", senderId);
-		map.put("receiverId", receiverId);
-		map.put("messageContent", messageContent);
-	
-
-		mService.insert(map);
-		
-	
-		
-		return "redirect:test";
-		
-		
-		
-	}
 
 }

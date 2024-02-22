@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+
 <%@page import="com.dto.board.MessageDTO"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
@@ -50,7 +50,7 @@
 
 	<div id="sendMessage" class="tab-content active-content">
 		<h2>쪽지 보내기</h2>
-		<form action="test" method="post">
+		<form action="" method="post">
 			받는 사람: <input type="text" name="receiverId"><br> 쪽지 내용:
 			<textarea name="messageContent"></textarea>
 			<br> <input type="submit" value="보내기">

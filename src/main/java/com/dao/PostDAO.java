@@ -150,4 +150,9 @@ public class PostDAO {
 		return session.selectOne("likeNum", postId);
 	}
 
+	public PostSaveDTO selectPostSave(String postSaveId) {
+		PostSaveDTO postsave = session.selectOne("selectPostSave", postSaveId);
+		return postsave;
+	}
+
 }// end class

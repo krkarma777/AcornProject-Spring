@@ -13,7 +13,7 @@ import com.service.PostService;
 @Controller
 public class BoardWriteSaveController {
 	
-	@Autowired
+
 	PostSaveDTO dto;
 	@Autowired
 	PostService service;

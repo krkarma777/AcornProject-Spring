@@ -25,7 +25,7 @@ public class ShowReviewController {
 	public String ShowReview(String postId, HttpSession session, HttpServletRequest request) {
 		
 		// 세션에서 로그인 정보 파싱
-		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		MemberDTO login = (MemberDTO) session.getAttribute("loginUser");
 		String likeUserId = null;
 		// 로그인 정보가 존재할 때
 		if(login!=null) {

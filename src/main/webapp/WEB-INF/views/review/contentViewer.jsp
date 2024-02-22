@@ -425,7 +425,7 @@
 						
 					},
 					error: function(xhr, status, e){
-						//console.log("실패: " + xhr.status);
+						console.log("실패: " + xhr.status);
 					}
 				}//json
 			);//ajax

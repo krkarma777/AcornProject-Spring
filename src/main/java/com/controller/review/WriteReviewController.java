@@ -22,14 +22,12 @@ public class WriteReviewController {
 	// 비동기 리뷰 작성 서블릿
 	@RequestMapping(value="my-review", method=RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView writeReview(ReviewDTO review, HttpSession session) {
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("review/contentViewer");
+	public String writeReview(ReviewDTO review, HttpSession session) {
 		
 		// 세션에서 로그인 정보 파싱
-		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		MemberDTO login = (MemberDTO) session.getAttribute("loginUser");
 		
+		String jsonText = null;
 		//로그인 정보가 존재하지 않을 때
 		if(login==null) {
 			session.setAttribute("mesg", "로그인이 필요한 작업입니다.");
@@ -41,7 +39,7 @@ public class WriteReviewController {
 			review = service.writeReview(review);
 			
 			// javascript에서 텍스트를 JSON.parse()로 json객체로 변환하여 사용할 수 있게하기 위해 하는 작업
-			String jsonText = "{"
+			jsonText = "{"
 					+ "\"postId\": \""+review.getPostId()+"\","
 					+ "\"postText\": \""+review.getPostBoard()+"\","
 					+ "\"userId\": \""+review.getUserId()+"\","
@@ -52,10 +50,7 @@ public class WriteReviewController {
 					+ "\"postText\": \""+review.getPostText()+"\","
 					+ "\"nickname\": \""+review.getNickname()+"\""
 					+ "}";
-			//응답
-			mav.addObject(jsonText);
 		}
-
-		return mav;
+		return jsonText;
 	}
 }

@@ -29,8 +29,9 @@ public class ReviewService {
 		return review;
 	}
 
-	public void UpdateScore(RateDTO dto) {
-		dao.UpdateScore(dto);
+	public int UpdateScore(RateDTO dto) {
+		int n = dao.UpdateScore(dto);
+		return n;
 	}
 
 	public List<ReviewDTO> selectReviews(HashMap<String, String> map) {

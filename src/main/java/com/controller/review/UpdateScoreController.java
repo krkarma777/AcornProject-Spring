@@ -21,20 +21,14 @@ public class UpdateScoreController {
 	// 비동기 별점 업데이트 서블릿
 	@RequestMapping(value="/score", method=RequestMethod.POST)
 	@ResponseBody
-	public String UpdateScore(RateDTO rate, HttpSession session) {
-		
+	public void UpdateScore(RateDTO rate, HttpSession session) {
 		// 세션에서 로그인 정보 파싱
-		MemberDTO login = (MemberDTO) session.getAttribute("login");
-		
+		MemberDTO login = (MemberDTO) session.getAttribute("loginUser");
 		// 로그인 정보가 존재할 때
 		if(login!=null) {
-
 			//DB에 별점 업데이트 작업
-			ReviewService service = new ReviewService();
 			service.UpdateScore(rate);
-			
 			//반환값 따로 없음
 		}	
-		return "review/contentViewer";
 	}
 }

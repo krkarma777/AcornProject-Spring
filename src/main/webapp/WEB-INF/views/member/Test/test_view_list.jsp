@@ -79,11 +79,7 @@
 
 	<h1>[회원 목록]</h1>
 	<hr>
-
-	<%
-	List<MemberDTO> list = (List<MemberDTO>) session.getAttribute("memberList");
-	%>
-
+	
 	<table border=1>
 			<tr>
 				<th>아이디</th>
@@ -102,29 +98,25 @@
 				<th>유형</th>
 				<th>삭제</th>
 			</tr>
-			<%
-			for (MemberDTO dto : list) {
-			%>
+			<c:forEach var="dto" items="${memberList}">
 			<tr>
-				<td><%=dto.getUserId()%></td>
-				<td><%=dto.getUserPw()%></td>
-				<td><%=dto.getUserName()%></td>
-				<td><%=dto.getNickname()%></td>
-				<td><%=dto.getUserSSN1()%></td>
-				<td><%=dto.getUserSSN2()%></td>
-				<td><%=dto.getUserGender()%></td>
-				<td><%=dto.getUserPhoneNum1()%></td>
-				<td><%=dto.getUserPhoneNum2()%></td>
-				<td><%=dto.getUserPhoneNum3()%></td>
-				<td><%=dto.getUserEmailId()%></td>
-				<td><%=dto.getUserEmailDomain()%></td>
-				<td><%=dto.getUserSignDate()%></td>
-				<td><%=dto.getUserType()%></td>
-				<td><button class="deleteBtn" data-id="<%=dto.getUserId()%>">삭제</button></td>
+				<td>${dto.userId}</td>
+				<td>${dto.getUserPw()}</td>
+				<td>${dto.getUserName()}</td>
+				<td>${dto.getNickname()}</td>
+				<td>${dto.getUserSSN1()}</td>
+				<td>${dto.getUserSSN2()}</td>
+				<td>${dto.getUserGender()}</td>
+				<td>${dto.getUserPhoneNum1()}</td>
+				<td>${dto.getUserPhoneNum2()}</td>
+				<td>${dto.getUserPhoneNum3()}</td>
+				<td>${dto.getUserEmailId()}</td>
+				<td>${dto.getUserEmailDomain()}</td>
+				<td>${dto.getUserSignDate()}</td>
+				<td>${dto.getUserType()}</td>
+				<td><button class="deleteBtn" data-id="${dto.getUserId()}">삭제</button></td>
 			</tr>
-			<%
-			}
-			%>
+			</c:forEach>
 	</table>
 	
     <div id="sitesShortCut">
@@ -136,7 +128,7 @@
    		$(function(){
    			
    			$(".deleteBtn").on("click", function(){
-				var userId = $(this).data("id");
+				var userId = $(this).attr("data-id");
    				console.log(userId);
    			})
    			

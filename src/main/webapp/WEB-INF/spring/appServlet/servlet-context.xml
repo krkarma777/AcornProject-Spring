@@ -28,7 +28,7 @@
 	<resources location="/WEB-INF/views/js/" mapping="/js/**"/>
 	
 	<!-- 임시 위치 설정 -->
-	<view-controller path="/" view-name="member/Login/loginMain"/>
+	<view-controller path="/" view-name="main"/>
 
 	<!-- 로그인/회원가입 파트 -->	
 	<view-controller path="/Login" view-name="member/Login/loginMain"/>

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,7 +24,7 @@ public class NewCommerController {
 
 	//로그인 메인에서 기존 유저 확인		//약관 동의 연결
 	@RequestMapping(value = "/RegisterTerms", method = RequestMethod.POST)
-	public String RegisterTerms(HttpServletRequest request, String userName, String ssn1, String ssn2, HttpSession session) {
+	public String RegisterTerms(HttpServletRequest request, String userName, String ssn1, String ssn2) {
 		MemberDTO dto = loginServ.findUserId(userName, ssn1, ssn2);
 		
 		//이름과 SSN이 모두 일치하는 DB정보가 있을 경우, 기존 유저 있음 jsp로 이동

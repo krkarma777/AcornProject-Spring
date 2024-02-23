@@ -27,8 +27,6 @@ public class AjaxController {
 	//메인에서 로그인 여부 확인 에이젝스
 	@RequestMapping(value = "AjaxCheckIDPW", method = RequestMethod.POST)
 	public String AjaxCheckIDPW(String userId, String userPw) {
-		System.out.println("호출 확인");
-		
 		boolean canLogin = lServ.loginPossible(userId, userPw);
 		String mesg = "loginSuccess";
 		if (!canLogin) {

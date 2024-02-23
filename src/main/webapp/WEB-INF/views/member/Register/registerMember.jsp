@@ -16,13 +16,6 @@
 
 <body>
 
-	<%
-		String userName = (String) request.getAttribute("userName");
-		String ssn1 = (String)request.getAttribute("ssn1");
-		String ssn2 = (String)request.getAttribute("ssn2");
-		System.out.println("jsp:"+ userName);
-	%>
-
 	<div class="container">
 		<h1>회원가입</h1>
 		<form id="registerForm" action="<c:url value='/InsertData'/>" method="post">
@@ -44,14 +37,14 @@
 			
 			<!-- 유저 이름 입력칸(회원가입 2단계에서 입력한 값을 통해 입력)(직접 입력 불가) -->
 			<label for="userName">유저 이름</label> 
-				<input type="text" id="userName" name="userName" value="<%=userName%>" readonly> 
+				<input type="text" id="userName" name="userName" value="${userName}" readonly> 
 				
 			<!-- 유저 SSN 입력칸(회원가입 2단계에서 입력한 값을 통해 입력)(직접 입력 불가) -->
 			<label for="userSSN1">주민등록번호</label>
 				<div style="display: flex; gap: 5px;">
-					<input type="text" id="userSSN1" name="userSSN1" value="<%=ssn1%>" readonly> 
+					<input type="text" id="userSSN1" name="userSSN1" value="${ssn1}" readonly> 
 						&nbsp;&nbsp;-&nbsp;&nbsp; 
-					<input type="password" id="userSSN2" name="userSSN2" value="<%=ssn2%>" readonly>
+					<input type="password" id="userSSN2" name="userSSN2" value="${ssn2}" readonly>
 				</div>
 
 			<!-- 유저 성별 Select칸(반드시 입력)(기본값 남성) -->

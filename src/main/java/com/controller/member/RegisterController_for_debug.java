@@ -16,7 +16,7 @@ import com.service.member.LoginService;
 import com.service.member.RegisterService;
 
 @Controller
-public class RegisterController {
+public class RegisterController_for_debug {
 
 	@Autowired
 	LoginService lServ;
@@ -25,8 +25,8 @@ public class RegisterController {
 	RegisterService serv;
 
 	//회원가입
-	@RequestMapping(value = "/InsertData", method = RequestMethod.POST)
-	public String InsertData(HttpServletRequest request, MemberDTO dto) {
+	@RequestMapping(value = "/InsertData_for_debug", method = RequestMethod.POST)
+	public String InsertData(HttpServletRequest request, MemberDTO dto, HttpSession session) {
 		System.out.println(dto);
 		
 		String result = "member/Register/registerFailure";
@@ -36,14 +36,19 @@ public class RegisterController {
 		boolean failMesg = true;
 
 		// 아이디 검증
-		boolean isDuplicateID = serv.isUserIdDuplicate(dto.getUserId());
+		String userId = request.getParameter("userId");
+		boolean isDuplicateID = serv.isUserIdDuplicate(userId);
 
-		if (dto.getUserId().length() < 4) { // 아이디 길이 규격확인
+		if (userId.length() < 4) { // 아이디 길이 규격확인
+			System.out.println("아이디 길이 오류 " + userId + " " + userId.length());
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "아이디 길이가 규정에 맞지 않습니다. 확인해주세요");
 			return result;
 
 		} else if (isDuplicateID) { // 아이디 중복여부 재확인
+			System.out.println("아이디 중복");
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "이미 가입된 아이디입니다. 확인해주세요");
 			return result;
@@ -52,15 +57,19 @@ public class RegisterController {
 		}
 
 		// 비밀번호 검증
-		String userPw = dto.getUserPw();
+		String userPw = request.getParameter("userPw");
 		String userPwConfirm = request.getParameter("userPwConfirm");
 
 		if (!(userPw.equals(userPwConfirm))) { // 비밀번호와 비밀번호 재확인 번호 일치 확인
+			System.out.println("비밀번호 일치 오류 " + userPw + " " + userPwConfirm);
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "비밀번호가 일치하지 않습니다. 확인해주세요");
 			return result;
 
 		} else if (userPw.length() < 6) { // 비밀번호 길이 규격확인
+			System.out.println("비밀번호 길이 오류 " + userPw + " " + userPw.length());
+			System.out.println("회원 가입 실패");
 			request.setAttribute("mesg", "비밀번호 길이가 규정에 맞지 않습니다. 확인해주세요");
 			return result;
 
@@ -69,8 +78,15 @@ public class RegisterController {
 		}
 
 		// 이름 및 SSN 검증
-		MemberDTO foundUser = lServ.findUserId(dto.getUserName(), dto.getUserSSN1(), dto.getUserSSN2());
+		String userName = request.getParameter("userName").trim();
+		String userSSN1 = request.getParameter("userSSN1").trim();
+		String userSSN2 = request.getParameter("userSSN2").trim();
+		MemberDTO foundUser = lServ.findUserId(userName, userSSN1, userSSN2);
+		int ssn2FirstNum = Integer.parseInt(String.valueOf(userSSN2).substring(0, 1));
+
 		if (foundUser != null) { // 이름 + SSN이 모두 일치하는 유저가 있는지 확인
+			System.out.println("이름, SSN 기존 회원 정보 있음");
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "이미 가입된 이름과 주민등록번호입니다. 확인해주세요");
 			return result;
@@ -80,15 +96,19 @@ public class RegisterController {
 		}
 
 		// 닉네임 검증
-		String nickname = dto.getNickname();
+		String nickname = request.getParameter("nickname");
 		boolean isDuplicateNickname = serv.isUserNicknameDuplicate(nickname);
 
 		if (nickname.length() < 2) { // 닉네임 길이 규격 확인
+			System.out.println("닉네임 길이 오류 " + nickname + " " + nickname.length());
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "닉네임 길이가 규정에 맞지 않습니다. 확인해주세요");
 			return result;
 
 		} else if (isDuplicateNickname) { // 닉네임 중복 여부 확인
+			System.out.println("닉네임 중복");
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "이미 가입된 닉네임입니다. 확인해주세요");
 			return result;
@@ -98,8 +118,10 @@ public class RegisterController {
 		}
 
 		// 성별 검증
-		String userGender = dto.getUserGender();
+		String userGender = request.getParameter("userGender");
 		if (!(userGender.equals("male") || userGender.equals("female"))) { // 성별 확인
+			System.out.println("성별 오류 " + userGender);
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "있을 수 없는 성별입니다. 확인해주세요");
 			return result;
@@ -109,14 +131,23 @@ public class RegisterController {
 		}
 
 		// 핸드폰 번호 검증
-		boolean isDuplicatePN = serv.isUserPNDuplicate(dto.getUserPhoneNum1(), dto.getUserPhoneNum2(), dto.getUserPhoneNum3());
+		String userPhoneNum1 = request.getParameter("userPhoneNum1");
+		String userPhoneNum2 = request.getParameter("userPhoneNum2");
+		String userPhoneNum3 = request.getParameter("userPhoneNum3");
+		boolean isDuplicatePN = serv.isUserPNDuplicate(userPhoneNum1, userPhoneNum2, userPhoneNum3);
 
 		if (isDuplicatePN) { // 핸드폰 번호 중복 확인(모든 번호 일치)
+			System.out.println("핸드폰 번호 중복 " + userPhoneNum1 + " - " + userPhoneNum2 + " - " + userPhoneNum3);
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "이미 가입된 핸드폰 번호입니다. 확인해주세요");
 			return result;
 
-		} else if (dto.getUserPhoneNum1().length() != 3 || dto.getUserPhoneNum2().length() != 4 || dto.getUserPhoneNum3().length() != 4) { 
+		} else if (userPhoneNum1.length() != 3 || userPhoneNum2.length() != 4 || userPhoneNum3.length() != 4) { // 핸드폰
+																												// 번호 길이
+																												// 확인
+			System.out.println("핸드폰 번호 오류 " + userPhoneNum1 + " - " + userPhoneNum2 + " - " + userPhoneNum3);
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "있을 수 없는 핸드폰 번호입니다. 확인해주세요");
 			return result;
@@ -126,9 +157,13 @@ public class RegisterController {
 		}
 
 		// 이메일 검증
-		boolean isDuplicateEM = serv.isUserEmailDuplicate(dto.getUserEmailId(), dto.getUserEmailDomain());
+		String userEmailId = request.getParameter("userEmailId");
+		String userEmailDomain = request.getParameter("userEmailDomain");
+		boolean isDuplicateEM = serv.isUserEmailDuplicate(userEmailId, userEmailDomain);
 
 		if (isDuplicateEM) { // 이메일 중복 확인(이메일 아이디 + 이메일 도메인이 모두 일치)
+			System.out.println("이메일 중복 " + userEmailId + " @ " + userEmailDomain);
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "이미 가입된 이메일입니다. 확인해주세요");
 			return result;
@@ -146,10 +181,9 @@ public class RegisterController {
 		// userType(회원 등급)은 1(일반 멤버)로 고정
 		if (failMesg) {
 
-			dto.setUserSignDate(userSignDate);
-			dto.setUserType("1");
-			
-			int num = serv.insertNewMember(dto);
+			MemberDTO dto2 = new MemberDTO(userId, userPwConfirm, userName, userSSN1, userSSN2, userGender, nickname, userPhoneNum1, userPhoneNum2, userPhoneNum3, userEmailId, userEmailDomain, userSignDate, "1");
+			System.out.println(dto2);
+			int num = serv.insertNewMember(dto2);
 
 			// 성공적으로 insert된 경우, 회원가입 성공 페이지로 이동
 			if (num == 1 && failMesg == true) {
@@ -162,5 +196,16 @@ public class RegisterController {
 			}
 		}
 		return result;
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }

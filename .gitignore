@@ -119,5 +119,7 @@ $RECYCLE.BIN/
 *.lnk
 pom.properties
 target/
+*.classpath
+.classpath
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,java
 

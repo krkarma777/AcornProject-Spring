@@ -18,14 +18,10 @@
 
 <body>
 
-	<%
-	MemberDTO dto = (MemberDTO) request.getAttribute("foundUser");
-	%>
-
 	<h2>찾은 유저 정보</h2>
-	<p><%=dto.getUserName()%>님은 기존 회원이십니다.<br>
-		아이디:	<%=dto.getUserId()%><br>
-		가입일:	<%=dto.getUserSignDate()%>
+	<p>${dto.getUserName()}님은 기존 회원이십니다.<br>
+		아이디:	${dto.getUserId()}<br>
+		가입일:	${dto.getUserSignDate()}
 	</p>
 	<div>
 		<a href="<c:url value='/Login'/>">로그인</a> | 

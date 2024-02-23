@@ -20,19 +20,17 @@ public class SelectReviewByUserController {
 	
 	@RequestMapping(value="/my-review", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView SelectReviewByUser(@RequestParam HashMap<String, String> map) {
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("review/contentViewer");
+	public String SelectReviewByUser(@RequestParam HashMap<String, String> map) {
 		
 		ReviewDTO review = service.SelectReviewByUser(map);
+		String jsonText = null;
 		if(review!=null) {
 			int score=0;
 			if(review.getScore()!=null) {
 				score = Integer.parseInt(review.getScore());
 			}
 
-			String jsonText = "{"
+			jsonText = "{"
 					+ "\"postId\": \""+review.getPostId()+"\","
 					+ "\"postText\": \""+review.getPostBoard()+"\","
 					+ "\"userId\": \""+review.getUserId()+"\","
@@ -44,9 +42,7 @@ public class SelectReviewByUserController {
 					+ "\"nickname\": \""+review.getNickname()+"\","
 					+ "\"score\": \""+score+"\""
 					+ "}";
-			mav.addObject(jsonText);
 		}
-
-		return mav;
+		return jsonText;
 	}
 }

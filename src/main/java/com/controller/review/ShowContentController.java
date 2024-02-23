@@ -27,6 +27,7 @@ public class ShowContentController {
 	@RequestMapping("/content-page")
 	public String contentPage(String contId, HttpSession session, HttpServletRequest request) {
 		
+		
 		MemberDTO login = (MemberDTO)session.getAttribute("loginUser");
 		
 		// 자신이 누른좋아요 정보 가져오기 위해 본인의 유저아이디 저장

@@ -48,13 +48,13 @@ public ReviewDTO writeReview(ReviewDTO review) {
 		//result.put("review", review);
 		//result.put("score", score);
 		
-		//ystem.out.println(review);
+		//system.out.println(review);
 		return review;
 	}
 
-	public void UpdateScore(RateDTO dto) {
-		//System.out.println(dto);
-		session.update("insertOrUpdateRating", dto);
+	public int UpdateScore(RateDTO dto) {
+		int n = session.update("insertOrUpdateRating", dto);
+		return n;
 	}
 
 	public List<ReviewDTO> selectReviews(HashMap<String, String> map) {

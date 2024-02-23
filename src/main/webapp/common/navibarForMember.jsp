@@ -1,6 +1,7 @@
 <%@page import="com.dto.MemberDTO"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <style>
     nav {
@@ -11,7 +12,7 @@
 
 <nav class="navbar navbar-expand" style="background-color:transparent;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="<%= request.getContextPath()%>/main">메인</a>
-            <a class="navbar-brand" href="<%=request.getContextPath()%>/memberListServlet">회원리스트(디버그)</a>
+            <a class="navbar-brand" href="<c:url value='/'/>">메인</a>
+            <a class="navbar-brand" href=<c:url value='/memberListServlet'/>">회원리스트(디버그)</a>
         </div>
 </nav>

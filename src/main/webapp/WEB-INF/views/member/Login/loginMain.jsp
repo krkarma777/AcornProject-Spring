@@ -15,7 +15,7 @@
 <body>
 
 <div id="header">
-    <jsp:include page="/WEB-INF/views/common/navibarForMember.jsp" flush="true"></jsp:include><br>
+    <jsp:include page="/common/navibarForMember.jsp" flush="true"></jsp:include><br>
 </div>
 
 <div id="contentBody">
@@ -39,7 +39,7 @@
 	  
 	<!-- 로그인 컨테이너 -->
 	  <div class="form-container sign-in-container">
-	  <form id="loginForm" action="<c:url value='/MyPage'/>" method="post">
+	  <form id="loginForm" action="<c:url value='/Logined'/>" method="post">
 	      <h1>로그인</h1>
 	      <div class="social-container">
 	        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>

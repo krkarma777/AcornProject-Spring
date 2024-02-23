@@ -22,7 +22,7 @@ public class LoginController {
 	LoginService serv;
 
 	//로그인
-	@RequestMapping(value = "/MyPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/Logined", method = RequestMethod.POST)
 	public String LoginToMypage(String userId, String userPw, HttpSession session) {
 		MemberDTO dto = serv.login(userId, userPw);
 
@@ -36,7 +36,7 @@ public class LoginController {
 	}
 
 	//로그아웃
-	@RequestMapping(value = "/Logout", method = RequestMethod.POST)
+	@RequestMapping(value = "/Logout", method = RequestMethod.GET)
 	public String Logout(HttpSession session) {
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginUser");
 		if (dto != null) {

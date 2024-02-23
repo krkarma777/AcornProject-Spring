@@ -61,11 +61,11 @@
 		color: black;
 	}
 	
-	.link-icon { position: relative; display: inline-block; width: auto; font-size: 14px; font-weight: 500; color: #333; margin-right: 10px; padding-top: 50px; }
-	.link-icon.twitter { background-image: url(./image/icon-twitter.png); background-repeat: no-repeat; }
-	.link-icon.facebook { background-image: url(./image/icon-facebook.png); background-repeat: no-repeat; } 
-	.link-icon.kakao { background-image: url(./image/icon-kakao.png); background-repeat: no-repeat; }
-	.link-icon.copy { background-image: url(./image/icon-copy.png); background-repeat: no-repeat; }
+	.link-icon { position: relative; display: inline-block; width: auto; font-size: 14px; font-weight: 500; color: #333; margin-right: 10px; padding-top: 50px; background-repeat: no-repeat;}
+	.link-icon.twitter { background-image: url(../image/icon-twitter.png); background-repeat: no-repeat; }
+	.link-icon.facebook { background-image: url(../image/icon-facebook.png); background-repeat: no-repeat; } 
+	.link-icon.kakao { background-image: url(../image/icon-kakao.png); background-repeat: no-repeat; }
+	.link-icon.copy { background-image: url(../image/icon-copy.png); background-repeat: no-repeat; }
 
 	#postText{
 		padding-bottom: 50px;
@@ -93,7 +93,6 @@
 	
 	
 	%>
-	console.log("<%=mesg%>");
 	if("<%=mesg%>"!="null"){
 		alert("<%=mesg%>");
 	}
@@ -165,7 +164,7 @@
 			$.ajax(
 				{
 					type: "post",
-					url:"UpdateLikeServlet",
+					url:"like",
 					data: {
 						"userId": "<%=userId%>",
 						"postId": <%=postId%>,

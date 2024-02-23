@@ -1,4 +1,4 @@
-package com.controller.review;
+	package com.controller.review;
 
 import java.util.HashMap;
 
@@ -21,16 +21,14 @@ public class UpdateLikeController {
 	
 	@RequestMapping(value="/like", method=RequestMethod.POST)
 	@ResponseBody
-	public String UpdateLike(@RequestParam HashMap<String, String> map, HttpSession session) {
+	public void UpdateLike(@RequestParam HashMap<String, String> map, HttpSession session) {
 		
 		// 세션에서 로그인 정보 파싱
-		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		MemberDTO login = (MemberDTO) session.getAttribute("loginUser");
 		
 		// 로그인 정보가 존재할 때
 		if(login!=null) {
 			service.UpdateLike(map);
 		}
-
-		return "review/contentViewer";
 	}
 }

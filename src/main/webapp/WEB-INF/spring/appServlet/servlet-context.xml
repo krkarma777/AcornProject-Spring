@@ -23,7 +23,7 @@
 	</beans:bean>
 		
 	<!-- web-inf 폴더는 반드시 리소스 등록 후 사용 -->
-	<resources location="/WEB-INF/views/images/" mapping="/images/**"/>
+	<resources location="/WEB-INF/views/image/" mapping="/image/**"/>
 	<resources location="/WEB-INF/views/css/" mapping="/css/**"/>
 	<resources location="/WEB-INF/views/js/" mapping="/js/**"/>
 	

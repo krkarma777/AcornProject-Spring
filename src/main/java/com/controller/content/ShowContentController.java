@@ -1,4 +1,4 @@
-package com.controller.review;
+package com.controller.content;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +63,7 @@ public class ShowContentController {
 			List<RateDTO> rateList = service.selectRates(contId);
 			request.setAttribute("rateList", rateList);
 			
-			nextPage = "review/contentViewer";
+			nextPage = "content/contentViewer";
 		}
 		
 		return nextPage;

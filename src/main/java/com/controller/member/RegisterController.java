@@ -1,5 +1,8 @@
 package com.controller.member;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,10 +26,13 @@ public class RegisterController {
 	
 	@Autowired
 	RegisterService serv;
+	
+	@Autowired
+	SecurityController sc;
 
 	//회원가입
 	@RequestMapping(value = "/InsertData", method = RequestMethod.POST)
-	public String InsertData(HttpServletRequest request, MemberDTO dto) {
+	public String InsertData(HttpServletRequest request, MemberDTO dto) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
 		System.out.println(dto);
 		
 		String result = "member/Register/registerFailure";
@@ -52,21 +58,27 @@ public class RegisterController {
 		}
 
 		// 비밀번호 검증
-		String userPw = dto.getUserPw();
+		String userPw2 = dto.getUserPw();
+		String userPw = sc.EncodePW(userPw2);
 		String userPwConfirm = request.getParameter("userPwConfirm");
 
-		if (!(userPw.equals(userPwConfirm))) { // 비밀번호와 비밀번호 재확인 번호 일치 확인
+		if (!(userPw2.equals(userPwConfirm))) { // 비밀번호와 비밀번호 재확인 번호 일치 확인
+			System.out.println("비밀번호 일치 오류 " + userPw2 + " " + userPwConfirm);
+			System.out.println("회원 가입 실패");
 			failMesg = false;
 			request.setAttribute("mesg", "비밀번호가 일치하지 않습니다. 확인해주세요");
 			return result;
 
-		} else if (userPw.length() < 6) { // 비밀번호 길이 규격확인
+		} else if (userPw2.length() < 6) { // 비밀번호 길이 규격확인
+			System.out.println("비밀번호 길이 오류 " + userPw2 + " " + userPw.length());
+			System.out.println("회원 가입 실패");
 			request.setAttribute("mesg", "비밀번호 길이가 규정에 맞지 않습니다. 확인해주세요");
 			return result;
 
 		} else { // 비밀번호 규격 통과
 			System.out.println("비밀번호 확인");
 		}
+		
 
 		// 이름 및 SSN 검증
 		MemberDTO foundUser = lServ.findUserId(dto.getUserName(), dto.getUserSSN1(), dto.getUserSSN2());
@@ -146,6 +158,7 @@ public class RegisterController {
 		// userType(회원 등급)은 1(일반 멤버)로 고정
 		if (failMesg) {
 
+			dto.setUserPw(userPw);
 			dto.setUserSignDate(userSignDate);
 			dto.setUserType("1");
 			

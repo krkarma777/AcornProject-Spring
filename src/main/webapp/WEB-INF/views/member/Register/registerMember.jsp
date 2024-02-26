@@ -114,57 +114,67 @@
 
 		
 		//닉네임 중복 확인
+		var prevNickname = ""; 
+		
 		$("#nickname").on("focusout", function() {
 			var nickname = $("#nickname").val();
 		    var errorSpan = $("#confirmNicknameError");
-			
-			$.ajax({
-                type: "POST",
-                url: "<c:url value='/AjaxNicknameDuplicate'/>", 
-                data: { nickname: nickname },
-                
-                beforeSend: function () {
-                    // AJAX 요청 전에 로딩 표시 보여주기
-                	$("#loadingSpinner_for_nickname").show();
-                	// 가입 버튼 비활성화
-                	$("#register_button").prop("disabled", true);
-                	$("#userIdButton").prop("disabled", true);
-              },
-                
-                success: function (response) {
-                	//닉네임이 DB에 저장된 닉네임과 일치하는 데이터가 있을 경우, ajax 출력
-                    if (response === "duplicate") {
-                        errorSpan.text("이미 사용 중인 닉네임입니다.");
-                    } else {
-                        errorSpan.text("");
-                    } 
-                },
-                error: function (error) {
-                    console.error("닉네임 중복 검사 에러:", error);
-                }, 
-                
-                complete: function () {
-                    // AJAX 요청 완료 후에 로딩 표시 숨기기
-                	$("#loadingSpinner_for_nickname").hide();
-                	// 가입 버튼 활성화
-	               	$("#register_button").prop("disabled", false);
-	               	$("#userIdButton").prop("disabled", false);
-                }
-
-            });
+		    
+		    if (nickname !== prevNickname) {
+				$.ajax({
+	                type: "POST",
+	                url: "<c:url value='/AjaxNicknameDuplicate'/>", 
+	                data: { nickname: nickname },
+	                
+	                beforeSend: function () {
+	                    // AJAX 요청 전에 로딩 표시 보여주기
+	                	$("#loadingSpinner_for_nickname").show();
+	                	// 가입 버튼 비활성화
+	                	$("#register_button").prop("disabled", true);
+	                	$("#userIdButton").prop("disabled", true);
+	              },
+	                
+	                success: function (response) {
+	                	//닉네임이 DB에 저장된 닉네임과 일치하는 데이터가 있을 경우, ajax 출력
+	                    if (response === "duplicate") {
+	                        errorSpan.text("이미 사용 중인 닉네임입니다.");
+	                    } else {
+	                        errorSpan.text("");
+	                    } 
+	                },
+	                error: function (error) {
+	                    console.error("닉네임 중복 검사 에러:", error);
+	                }, 
+	                
+	                complete: function () {
+	                    // AJAX 요청 완료 후에 로딩 표시 숨기기
+	                	$("#loadingSpinner_for_nickname").hide();
+	                	// 가입 버튼 활성화
+		               	$("#register_button").prop("disabled", false);
+		               	$("#userIdButton").prop("disabled", false);
+	                }
+				})
+				prevNickname = nickname;
+            };
 		});
 		
 		
-		//핸드폰 번호를 숫자만 가능하도록 제한
-		function isNumeric(value) {
-			return /^\d+$/.test(value);
-		}
+		//phoneNum을 숫자로 입력 제한
+		$(".phoneNum").on("input", function () {
+		    
+		    if (!/^\d*$/.test($(this).val())) {
+		        alert("숫자만 입력 가능합니다.");
+		        $(this).val("");
+		        $(this).focus();
+		    }
+		});
 		
 		
 		//두 번쨰 핸드폰 번호 4자리를 입력하면, 자동으로 세 번쨰 핸드폰 번호로 focus
 		$("#userPhoneNum2").on('input', function() {
 			var maxLength = 4;
 			if ($(this).val().length >= maxLength) {
+				$("#userPhoneNum3").val("")
 				$(this).val($(this).val().slice(0, maxLength));
 				$("#userPhoneNum3").focus();
 			}
@@ -172,51 +182,57 @@
 		
 		
 		//핸드폰 번호 중복 확인
+		var prevphoneNum = ""; 
+		
 		$(".phoneNum").on("focusout", function() {
 		    var userPhoneNum1 = $("#userPhoneNum1").val();
 		    var userPhoneNum2 = $("#userPhoneNum2").val();
 		    var userPhoneNum3 = $("#userPhoneNum3").val();
+		    var userPhoneNum = userPhoneNum1+userPhoneNum2+userPhoneNum3
 		    var errorSpan = $("#confirmPhoneNumError");
 		
 		    //핸드폰 번호를 모두 입력했을 때 발동
-		    if (userPhoneNum1 && userPhoneNum2 && userPhoneNum3) {
-		        $.ajax({
-		            type: "POST",
-		            url: "<c:url value='/AjaxPhoneNumDuplicate'/>", 
-		            
-		            beforeSend: function () {
-	                    // AJAX 요청 전에 로딩 표시 보여주기
-	                	$("#loadingSpinner_for_PhoneNum").show();
-	                	// 가입 버튼 비활성화
-	                	$("#register_button").prop("disabled", true);
-	                	$("#userIdButton").prop("disabled", true);
-	                },
-		            
-		            data: {
-		            	userPhoneNum1: userPhoneNum1,
-		            	userPhoneNum2: userPhoneNum2,
-		            	userPhoneNum3: userPhoneNum3
-		            },
-		            success: function(response) {
-		            	//핸드폰 번호 전체가 DB에 저장된 핸드폰 번호와 일치하는 데이터가 있을 경우, ajax 출력
-		                if (response === "duplicate") {
-		                	errorSpan.text("이미 사용 중인 핸드폰 번호입니다.");
-		                } else {
-		                	errorSpan.text("");
+		    if (userPhoneNum !== prevphoneNum) {
+			    if (userPhoneNum1 && userPhoneNum2 && userPhoneNum3) {
+			        $.ajax({
+			            type: "POST",
+			            url: "<c:url value='/AjaxPhoneNumDuplicate'/>", 
+			            
+			            beforeSend: function () {
+		                    // AJAX 요청 전에 로딩 표시 보여주기
+		                	$("#loadingSpinner_for_PhoneNum").show();
+		                	// 가입 버튼 비활성화
+		                	$("#register_button").prop("disabled", true);
+		                	$("#userIdButton").prop("disabled", true);
+		                },
+			            
+			            data: {
+			            	userPhoneNum1: userPhoneNum1,
+			            	userPhoneNum2: userPhoneNum2,
+			            	userPhoneNum3: userPhoneNum3
+			            },
+			            success: function(response) {
+			            	//핸드폰 번호 전체가 DB에 저장된 핸드폰 번호와 일치하는 데이터가 있을 경우, ajax 출력
+			                if (response === "duplicate") {
+			                	errorSpan.text("이미 사용 중인 핸드폰 번호입니다.");
+			                } else {
+			                	errorSpan.text("");
+			                }
+			            },
+			            error: function(error) {
+			                console.error("핸드폰 번호 중복 검사 에러:", error);
+			            },
+			            
+			            complete: function () {
+		                    // AJAX 요청 완료 후에 로딩 표시 숨기기
+		                	$("#loadingSpinner_for_PhoneNum").hide();
+		                	// 가입 버튼 활성화
+			               	$("#register_button").prop("disabled", false);
+			               	$("#userIdButton").prop("disabled", false);
 		                }
-		            },
-		            error: function(error) {
-		                console.error("핸드폰 번호 중복 검사 에러:", error);
-		            },
-		            
-		            complete: function () {
-	                    // AJAX 요청 완료 후에 로딩 표시 숨기기
-	                	$("#loadingSpinner_for_PhoneNum").hide();
-	                	// 가입 버튼 활성화
-		               	$("#register_button").prop("disabled", false);
-		               	$("#userIdButton").prop("disabled", false);
-	                }
-		        });
+			        })
+			        prevphoneNum = userPhoneNum
+			    };
 		    } else {
 		    	errorSpan.text("");
 			}
@@ -251,50 +267,57 @@
 		
 	    
 		//이메일 중복 확인(아이디/도메인을 입력할 경우)
+		var prevUserEmail = ""; 
+		
 		$(".userEmail").on("focusout", function() {
 		    var userEmailId = $("#userEmailId").val();
 		    var userEmailDomain = $("#userEmailDomain").val();
+		    var userEmail = userEmailId+userEmailDomain;
 		    var errorSpan = $("#confirmUserEmailError");
 		
 		    //이메일 아이디와 이메일 도메인이 모두 있을 때 출력
-		    if (userEmailId && userEmailDomain) {
-		        $.ajax({
-		            type: "POST",
-		            url: "<c:url value='/AjaxEmailDuplicate'/>", 
-		            
-		            beforeSend: function () {
-	                    // AJAX 요청 전에 로딩 표시 보여주기
-	                	$("#loadingSpinner_for_Email").show();
-	                	// 가입 버튼 비활성화
-	                	$("#register_button").prop("disabled", true);
-	                	$("#userIdButton").prop("disabled", true);
-                },
-		            
-		            data: {
-		            	userEmailId: userEmailId,
-		            	userEmailDomain: userEmailDomain,
-		            },
-		            success: function(response) {
-		            	//이메일 아이디와 도메인이 DB에 저장된 값과 일치할 경우, ajax 출력
-		                if (response === "duplicate") {
-		                	errorSpan.text("이미 사용 중인 이메일입니다.");
-		                } else {
-		                	errorSpan.text("");
+		    if (userEmail !== prevUserEmail) {
+			    if (userEmailId && userEmailDomain) {
+			        $.ajax({
+			            type: "POST",
+			            url: "<c:url value='/AjaxEmailDuplicate'/>", 
+			            
+			            beforeSend: function () {
+		                    // AJAX 요청 전에 로딩 표시 보여주기
+		                	$("#loadingSpinner_for_Email").show();
+		                	// 가입 버튼 비활성화
+		                	$("#register_button").prop("disabled", true);
+		                	$("#userIdButton").prop("disabled", true);
+	                },
+			            
+			            data: {
+			            	userEmailId: userEmailId,
+			            	userEmailDomain: userEmailDomain,
+			            },
+			            success: function(response) {
+			            	//이메일 아이디와 도메인이 DB에 저장된 값과 일치할 경우, ajax 출력
+			                if (response === "duplicate") {
+			                	errorSpan.text("이미 사용 중인 이메일입니다.");
+			                } else {
+			                	errorSpan.text("");
+			                }
+			            },
+			            error: function(error) {
+			                console.error("이메일 중복 검사 에러:", error);
+			            }, 
+			            
+			            complete: function () {
+		                    // AJAX 요청 완료 후에 로딩 표시 숨기기
+		                	$("#loadingSpinner_for_Email").hide();
+		                	// 가입 버튼 활성화
+			               	$("#register_button").prop("disabled", false);
+			               	$("#userIdButton").prop("disabled", false);
 		                }
-		            },
-		            error: function(error) {
-		                console.error("이메일 중복 검사 에러:", error);
-		            }, 
-		            
-		            complete: function () {
-	                    // AJAX 요청 완료 후에 로딩 표시 숨기기
-	                	$("#loadingSpinner_for_Email").hide();
-	                	// 가입 버튼 활성화
-		               	$("#register_button").prop("disabled", false);
-		               	$("#userIdButton").prop("disabled", false);
-	                }
-		            
-		        });
+			            
+			        });
+			        prevUserEmail = userEmail
+			        console.log(prevUserEmail)
+			    };
 		    } else {
 		    	errorSpan.text("");
 			}
@@ -303,34 +326,39 @@
 		
 		//이메일 중복 확인(도메인 선택할 경우)
 		$("#domainSelect").on("change", function() {
-		    var userEmailId = $("#userEmailId").val();
+			var userEmailId = $("#userEmailId").val();
 		    var userEmailDomain = $("#userEmailDomain").val();
+		    var userEmail = userEmailId+userEmailDomain;
 		    var errorSpan = $("#confirmUserEmailError");
 		
 		    //이메일 아이디와 이메일 도메인이 모두 있을 때 출력
-		    if (userEmailId && userEmailDomain) {
-		        $.ajax({
-		            type: "POST",
-		            url: "<c:url value='/AjaxEmailDuplicate'/>", 
-		            data: {
-		            	userEmailId: userEmailId,
-		            	userEmailDomain: userEmailDomain,
-		            },
-		            success: function(response) {
-		            	//이메일 아이디와 도메인이 DB에 저장된 값과 일치할 경우, ajax 출력
-		                if (response === "duplicate") {
-		                	errorSpan.text("이미 사용 중인 이메일입니다.");
-		                } else {
-		                	errorSpan.text("");
-		                }
-		            },
-		            error: function(error) {
-		                console.error("이메일 중복 검사 에러:", error);
-		            }
-		        });
-		    } else {
-		    	errorSpan.text("");
-			}
+		    if (userEmail !== prevUserEmail) {
+			    if (userEmailId && userEmailDomain) {
+			        $.ajax({
+			            type: "POST",
+			            url: "<c:url value='/AjaxEmailDuplicate'/>", 
+			            data: {
+			            	userEmailId: userEmailId,
+			            	userEmailDomain: userEmailDomain,
+			            },
+			            success: function(response) {
+			            	//이메일 아이디와 도메인이 DB에 저장된 값과 일치할 경우, ajax 출력
+			                if (response === "duplicate") {
+			                	errorSpan.text("이미 사용 중인 이메일입니다.");
+			                } else {
+			                	errorSpan.text("");
+			                }
+			            },
+			            error: function(error) {
+			                console.error("이메일 중복 검사 에러:", error);
+			            }
+			        });
+			        prevUserEmail = userEmail
+			        console.log(prevUserEmail)
+			    	}
+			    } else {
+			    	errorSpan.text("");
+				}
 		});
 		
 		

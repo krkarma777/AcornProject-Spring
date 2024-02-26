@@ -16,12 +16,10 @@
 <body>
 
 	<!-- 회원가입에 왜 실패했는지 알려주는 메세지를 신규 회원정보 검증&등록 창에서 가져옴 -->
-	<% String errorMesg = (String)request.getAttribute("mesg"); %>
-
     <div id="errorMessage">
         회원가입 실패<br>
 		<!-- 회원가입에 왜 실패했는지 알려주는 메세지 출력 -->
-       	<%= errorMesg %>
+       	${mesg}
     </div>
 
     <div id="sitesShortCut">

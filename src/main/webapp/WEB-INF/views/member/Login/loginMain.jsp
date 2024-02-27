@@ -299,18 +299,8 @@
 	    });
 	})
 	    
-	//ssn1 숫자로 입력 제한
-	$("#ssn1").on("input", function () {
-	    
-	    if (!/^\d*$/.test($(this).val())) {
-	        alert("숫자만 입력 가능합니다.");
-	        $(this).val("");
-	        $(this).focus();
-	    }
-	});
-
-	//ssn2 숫자로 입력 제한
-	$("#ssn2").on("input", function () {
+	//ssn을 숫자로 입력 제한
+	$(".ssn").on("input", function () {
 	    
 	    if (!/^\d*$/.test($(this).val())) {
 	        alert("숫자만 입력 가능합니다.");

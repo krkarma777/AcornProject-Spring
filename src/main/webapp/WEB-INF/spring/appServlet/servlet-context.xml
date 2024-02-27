@@ -21,9 +21,19 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	
+	<!-- 단방향 암호화 -->
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	 
+	<!-- 양방향 암호화 -->
+	<beans:bean id="AES256Util" class="com.controller.member.AES256Util">
+		<beans:constructor-arg>
+			<beans:value>1111111111111111</beans:value> <!-- 16자리로 제한 -->
+		</beans:constructor-arg>
+	</beans:bean>
 		
 	<!-- web-inf 폴더는 반드시 리소스 등록 후 사용 -->
-	<resources location="/WEB-INF/views/images/" mapping="/images/**"/>
+	<resources location="/WEB-INF/views/image/" mapping="/image/**"/>
 	<resources location="/WEB-INF/views/css/" mapping="/css/**"/>
 	<resources location="/WEB-INF/views/js/" mapping="/js/**"/>
 	

@@ -12,6 +12,13 @@
 			memberDB
 	</select>
 	
+	<!-- 디버그용 - 회원 삭제 -->
+	<delete id="IDDelete" parameterType="String">
+		DELETE 
+		FROM memberDB
+		Where userId = #{userId}
+	</delete>
+	
 
 	<!-- **************************************************************** -->
 	<!-- *********************로그인 Mapper********************************* -->

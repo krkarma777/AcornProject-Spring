@@ -20,7 +20,13 @@ public class LoginService {
 	//디버그용 - 회원 정보 찾기
 	public List<MemberDTO> selectAll() {
 		List<MemberDTO> list = dao.selectAll();
-		return list;
+	return list;
+	}
+	
+	//디버그용 - 회원 삭제
+	public int IDDelete(String userId) {
+		int num = dao.IDDelete(userId);
+	return num;
 	}
 	
 	//아이디 찾기
@@ -94,4 +100,5 @@ public class LoginService {
 		MemberDTO dto = dao.selectMemberData(userId);
 		return dto;
 	}
+
 }

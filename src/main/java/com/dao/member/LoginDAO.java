@@ -23,6 +23,12 @@ public class LoginDAO {
 		return list;
 	}
 	
+	//디버그용 - 회원 삭제
+	public int IDDelete(String userId) {
+		int num = session.delete("IDDelete", userId);
+	return num;
+	}	
+	
 	//아이디 찾기
 	public MemberDTO findUserId(Map<String, String> dataForFindUserId) {
 		MemberDTO dto = session.selectOne("com.config.MemberMapper.findUserId", dataForFindUserId);

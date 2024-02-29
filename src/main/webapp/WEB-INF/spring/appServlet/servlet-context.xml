@@ -46,7 +46,22 @@
 	<view-controller path="/FindAllPW" view-name="member/Find_Info/childFindAllPW"/>
 	<view-controller path="/IdDupilicate" view-name="member/Register/childCheckIDDupilicate"/>
 	
-	
+	<!-- 메일링 -->
+	<beans:bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<beans:property name="host" value="smtp.gmail.com"/>
+		<beans:property name="port" value="587"/>
+		<beans:property name="defaultEncoding" value="utf-8"/>
+		<beans:property name="username" value="cjstkrhdfk666@gmail.com"/>
+		<beans:property name="password" value="bhkw xgzu ttgd fqdc"/>
+		<beans:property name="javaMailProperties">
+			<beans:props>
+				<beans:prop key="mail.transport.protocol">smtp</beans:prop>
+				<beans:prop key="mail.smtp.auth">true</beans:prop> <!-- 2단계본인인증을 했으니 보안적으로 true라고 준다 -->
+				<beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+				<beans:prop key="mail.debug">true</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
 	
 	
 	<context:component-scan base-package="com" />

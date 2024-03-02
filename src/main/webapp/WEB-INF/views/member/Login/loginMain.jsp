@@ -51,8 +51,8 @@
 	      <input type="password" id="userPw" name="userPw" class="loginSet" autocomplete="off" placeholder="패스워드"/>
 	      <button type="button" id="showPasswd" class="loginButtons">비밀번호 보이기</button>
 	      <button class="loginButtons">로그인</button>
-          <div id="confirmUserIdPwError" style="font-size: 14px"></div>
-	    
+		  <div id="confirmUserIdPwError" style="font-size: 14px; color: red;"></div>	    
+	      
 	      <div class="row" id="rowBar">
               <div class="col-2"><input type="checkbox" id="userIdSave" name="userIdSave" class="loginSet"></div>
               <div class="col-4 save-label" style="font-size: 13px">아이디 저장</div>

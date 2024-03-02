@@ -28,6 +28,9 @@ public class LoginController {
 	@Autowired
 	SecurityController sc;
 	
+	@Autowired
+	MailController mc;
+	
 	//로그인
 	@RequestMapping(value = "/Logined", method = RequestMethod.POST)
 	public String LoginToMypage(String userId, String userPw, HttpSession session) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
@@ -93,23 +96,19 @@ public class LoginController {
 	
 	//전체 비밀번호 출력용
 	@RequestMapping(value = "/SearchAllPW", method = RequestMethod.GET)
-	public String SearchAllPW(Model model, String userId, HttpSession session) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+	public String SearchAllPW(Model model, String userId, HttpSession session) throws Exception {
 		MemberDTO dto = serv.selectMemberData(userId);
+		String userEmail = dto.getUserEmailId()+"@"+dto.getUserEmailDomain();
 		String userPw = sc.DecodePW(dto.getUserPw());
-		System.out.println(userPw);
 		dto.setUserPw(userPw);
+		System.out.println(userPw);
+		System.out.println(userEmail);
 		System.out.println(dto);
 		
 		if (dto != null) {
 			model.addAttribute("dto", dto);
-			
-			//디버그 코드************************************************************************
+			mc.sendEmail(userEmail, dto);
 			return "member/Find_Info/viewAllPW";
-			//디버그 코드******
-						
-//			RequestDispatcher dis = request.getRequestDispatcher("SendEmailServlet");
-//			dis.forward(request, response);
-						
 		} else {
 			return "member/Find_Info/cantFindUserdata";
 		}

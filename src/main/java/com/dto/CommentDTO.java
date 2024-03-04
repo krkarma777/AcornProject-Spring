@@ -1,8 +1,10 @@
 package com.dto;
 
 import org.apache.ibatis.type.Alias;
+import org.springframework.stereotype.Component;
 
-@Alias("CommentDTO")
+@Component
+@Alias("commentDTO")
 public class CommentDTO {
 	
 	private int comId;

@@ -6,22 +6,10 @@
 <%@page import="java.util.Map" %>    
 <%@page import="java.util.HashMap" %>  
 <%@page import="com.dto.MemberDTO" %>  
-<%
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
 
-MemberDTO dto =  (MemberDTO)session.getAttribute("loginUser");
-
-//session scoep에 저장된 userid
-String userId = null;
-if(dto != null){
-	userId = dto.getUserId();
-}
-
-//session scope에 저장된 nickname
-String nickname = null;
-if(dto != null){
-	nickname = dto.getNickname();
-}
-%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 	window.onload = init;
@@ -54,95 +42,63 @@ if(dto != null){
 		// 페이지 로딩 시 댓글 목록을 불러옴
 	    CommentSelectAllServlet();
 		
-	$("#sendButton").click(function(){
-		
-
-		$.ajax({
+	    $("#sendButton").click(function(){
 			
-			type: "post",
-			url: "/acorn/CommetInsertServlet",
-			data:{
-				postId : $("#postidComment").val(),
-				userId : $.trim($("#useridComment").val()),
-				comDate : $("#comdate").text(),
-				comText : $("#comtext").val(),
-				nickname : $.trim($("#nickname").text()),
-				aboveComId : $("#abovecomidComment").val()
-				},
-			success :  function (data, status, xhr){
-				
-				CommentSelectAllServlet();
-				
-			},
-			error : function(xhr, status, error){
-					
-				$("#CommetList").text(error);
-				$("#CommetList").text(status);
-				
-			}
-			
-		})//ajax
 
- 	});//sendButton end
-
-}); //doc end1
-
-
-$(document).on("click",".deleteCommentBtn",function(){
-		
-	 var comId = $(this).attr("id");
-	 console.log('아아',comId);
-	 var aboveComId = $(this).attr("data-xxx");
-	
-	 var replyJson2 = ReplyCommentSearch(comId);
-	 var length2 = replyJson2.replyCommentDBList.length;
-	
-if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨	 
-	
-	//내 comId랑 동일한 avobeComId를 가지고 있는 레코드가 있으면?????? ----> "삭제된 댓글입니다." 로 UPDATE
-
-		$.ajax({
-			
-			type: "post",
-			url: "/acorn/CommentUpdateServlet",
-			data:{
-				//댓글 수정(삭제)를 위해서 서버로 comid를 넘겨주고 있음
-				comId : $(this).attr("id"),
-				How : "0"
-				//아래 수정버튼 진행 시 똑같이 CommentUpdateServlet로 넘어가기 때문에 구분짓기 위해서 HOW라는 KEY=VALUE를 이용함
-				//0이면 delete(update) 이고 1이면 찐update임
-			},
-			dataType: "text",
-			success :  function(data, status, xhr){
-				console.log(data);
-			
-				if(data == "댓글이 삭제되었습니다."){
-				alert(data);
-				CommentSelectAllServlet(); 
-				 
-				}else{
-					alert("댓글을 삭제할 수 없습니다.");
-				}
-				
-			},
-			error : function(xhr, status, error){
-				console.log("에러코드 add"+status);
-			}
-			
-		})//update ajax
-		
-	
-}else{
-	
-	//내 comId랑 동일한 avobeComId를 가지고 있는 레코드가 없으면????? -----> 그냥 DELETE
-
-		$.ajax({
+			$.ajax({
 				
 				type: "post",
-				url: "/acorn/CommetDeleteServlet",
+				url: "Acorn/CommetInsert",
 				data:{
-					//댓글 삭제를 위해서 서버로 comid를 넘겨주고 있음
-					comId : comId
+					postId : $("#postidComment").val(),
+					userId : $.trim($("#useridComment").val()),
+					comDate : $("#comdate").text(),
+					comText : $("#comtext").val(),
+					nickname : $.trim($("#nickname").text()),
+					aboveComId : $("#abovecomidComment").val()
+					},
+				success :  function (data, status, xhr){
+					
+					CommentSelectAllServlet();
+					
+				},
+				error : function(xhr, status, error){
+						
+					$("#CommetList").text(error);
+					$("#CommetList").text(status);
+					
+				}
+				
+			})//ajax
+
+	 	});//sendButton end
+
+		
+	});//doc end 1
+	
+	
+	$(document).on("click",".deleteCommentBtn",function(){
+		
+		 var comId = $(this).attr("id");
+		 var aboveComId = $(this).attr("data-xxx");
+		
+		 var replyJson2 = ReplyCommentSearch(comId);
+		 var length2 = replyJson2.length;
+		
+	if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨	 
+		
+		//내 comId랑 동일한 avobeComId를 가지고 있는 레코드가 있으면?????? ----> "삭제된 댓글입니다." 로 UPDATE
+
+			$.ajax({
+				
+				type: "post",
+				url: "Acorn/CommentUpdate",
+				data:{
+					//댓글 수정(삭제)를 위해서 서버로 comid를 넘겨주고 있음
+					comId : $(this).attr("id"),
+					How : "0"
+					//아래 수정버튼 진행 시 똑같이 CommentUpdate로 넘어가기 때문에 구분짓기 위해서 HOW라는 KEY=VALUE를 이용함
+					
 				},
 				dataType: "text",
 				success :  function(data, status, xhr){
@@ -161,95 +117,124 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 					console.log("에러코드 add"+status);
 				}
 				
-			})//delete ajax 
+			})//update ajax
+			
 		
-}//else end
+	}else{
+		
+		//내 comId랑 동일한 avobeComId를 가지고 있는 레코드가 없으면????? -----> 그냥 DELETE
+
+			$.ajax({
+					
+					type: "post",
+					url: "Acorn/CommetDelete",
+					data:{
+						//댓글 삭제를 위해서 서버로 comid를 넘겨주고 있음
+						comId : comId
+					},
+					dataType: "text",
+					success :  function(data, status, xhr){
+						console.log(data);
+					
+						if(data == "댓글이 삭제되었습니다."){
+						alert(data);
+						CommentSelectAllServlet(); 
+						 
+						}else{
+							alert("댓글을 삭제할 수 없습니다.");
+						}
+						
+					},
+					error : function(xhr, status, error){
+						console.log("에러코드 add"+status);
+					}
+					
+				})//delete ajax 
+			
+	}//else end
+			
+			
+		});//deleteCommentBtn doc end
 		
 		
-	});//deleteCommentBtn doc end
+		
+		$(document).on("click",".updateCommentBtn",function(){	
+			//수정 버튼 눌러서 내용 수정할 수 있게 화면이 바뀌는 기능
+			
+			 var comId = $(this).attr("data-xxx");
+		 	//console.log("updateCommentBtn 이벤트의",comId);
+		 		
+		 	$("#comText"+comId).removeAttr("style");
+		 	$("#comText"+comId).removeAttr("readonly");
+		 	//input태그 그냥 text처럼 보이게 하기 위해 줬던 속성 수거하는 중 (수정하려는 val값 수정할 수 있게)
+		 	
+		 	$("#update"+comId).attr("style","display: none");
+		 	//수정버튼이 눌리면 수정버튼은 잠깐 안 보이게 하기 위함 (레이아웃에서까지 없애야해서 display 속성을 사용)
+		 	
+		 	$("#span"+comId).html("<button class='btn btn-primary btn-sm btn-spacing updateCommentBtn2' data-xxx='" + comId + "'>확인</button>");
+		 	//실제로 update기능이 실행될 [확인] 버튼을 span태그 안에 넣어주는중
+		 	
+		})//updateCommentBtn doc end
 	
-	
-	
-	$(document).on("click",".updateCommentBtn",function(){	
-		//수정 버튼 눌러서 내용 수정할 수 있게 화면이 바뀌는 기능
 		
-		 var comId = $(this).attr("data-xxx");
-	 	//console.log("updateCommentBtn 이벤트의",comId);
-	 		
-	 	$("#comText"+comId).removeAttr("style");
-	 	$("#comText"+comId).removeAttr("readonly");
-	 	//input태그 그냥 text처럼 보이게 하기 위해 줬던 속성 수거하는 중 (수정하려는 val값 수정할 수 있게)
-	 	
-	 	$("#update"+comId).attr("style","display: none");
-	 	//수정버튼이 눌리면 수정버튼은 잠깐 안 보이게 하기 위함 (레이아웃에서까지 없애야해서 display 속성을 사용)
-	 	
-	 	$("#span"+comId).html("<button class='btn btn-primary btn-sm btn-spacing updateCommentBtn2' data-xxx='" + comId + "'>확인</button>");
-	 	//실제로 update기능이 실행될 [확인] 버튼을 span태그 안에 넣어주는중
-	 	
-	})//updateCommentBtn doc end
-	
-	
-	
-	$(document).on("click",".updateCommentBtn2",function(){	
-		//찐으로 update가 진행될 수 있는 [확인]이 실행되는 기능
-		
-		var comId = $(this).attr("data-xxx");
-		
-	$.ajax({
-		
-		type: "post",
-		url: "/acorn/CommentUpdateServlet",
-		data:{
-			//댓글 수정(삭제)를 위해서 서버로 comid를 넘겨주고 있음
-			comId : $(this).attr("data-xxx"),
-			comText : $("#comText"+comId).val(),
-			How : "1"
-			//위에 삭제버튼 진행 시 똑같이 CommentUpdateServlet로 넘어가기 때문에 구분짓기 위해서 HOW라는 KEY=VALUE를 이용함
-			//0이면 delete(update) 이고 1이면 찐update임
-		},
-		dataType: "text",
-		success :  function(data, status, xhr){
-			//console.log(data);
-		
-			if(data == "댓글이 수정되었습니다."){
-			alert(data);
-			$("#span"+comId).html(""); //[확인]버튼 다시 없애버리는중
-			$("#update"+comId).removeAttr("style"); //[수정]버튼 숨겨놨던 속성 지워버리기
-			CommentSelectAllServlet(); 
-			 
-			}else{
-				alert("댓글을 수정할 수 없습니다.");
+		$(document).on("click",".updateCommentBtn2",function(){	
+			//찐으로 update가 진행될 수 있는 [확인]이 실행되는 기능
+			
+			var comId = $(this).attr("data-xxx");
+			
+		$.ajax({
+			
+			type: "post",
+			url: "Acorn/CommentUpdate",
+			data:{
+				//댓글 수정(삭제)를 위해서 서버로 comid를 넘겨주고 있음
+				comId : $(this).attr("data-xxx"),
+				comText : $("#comText"+comId).val(),
+				How : "1"
+				//위에 삭제버튼 진행 시 똑같이 CommentUpdateServlet로 넘어가기 때문에 구분짓기 위해서 HOW라는 KEY=VALUE를 이용함
+				//0이면 delete(update) 이고 1이면 찐update임
+			},
+			dataType: "text",
+			success :  function(data, status, xhr){
+				//console.log(data);
+			
+				if(data == "댓글이 수정되었습니다."){
+				alert(data);
+				$("#span"+comId).html(""); //[확인]버튼 다시 없애버리는중
+				$("#update"+comId).removeAttr("style"); //[수정]버튼 숨겨놨던 속성 지워버리기
+				CommentSelectAllServlet(); 
+				 
+				}else{
+					alert("댓글을 수정할 수 없습니다.");
+				}
+				
+			},
+			error : function(xhr, status, error){
+				console.log("에러코드 add"+status);
 			}
 			
-		},
-		error : function(xhr, status, error){
-			console.log("에러코드 add"+status);
-		}
-		
-	})//AJAX END
-		
-	})//updateCommentBtn2 END
-
-
-		
+		})//AJAX END
+			
+		})//updateCommentBtn2 END
 	
 	
+
 	function CommentSelectAllServlet() {
 		//console.log("CommentSelectAllServlet");
 		
-		 var postId = <%= request.getParameter("postId")%>
+		 var postId = <%= request.getAttribute("postId")%> /*이거 나중에 Parametget로 바꿔야함(테스트중)  */
 		 
 		 $.ajax({
 				
 				type: "post",
-				url: "/acorn/CommentSelectAllServlet",
+				url: "Acorn/selectAllByPostId",
 		        data: {
 		            postId: postId // postid 값을 요청에 포함시킴
 		        },
 				dataType: "json",
 				success :  function(data, status, xhr){
 					var mesg ="";
-					var length = data.commentDBList.length;
+					var length = data.length;
 					 var comId = 0;
 					// 댓글이 없는 경우
 				    if(length == 0) {
@@ -260,14 +245,14 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 				        for(var i = 0; i < length; i++){ //부모댓글 for문 (바깥for문)
 				        	
 				        	///부모댓글 목록 뿌리기 용///
-				        	var comId = data.commentDBList[i].comId;
-				            var userId = data.commentDBList[i].userId;
-				            var comDate = data.commentDBList[i].comDate;
-				            var comText = data.commentDBList[i].comText;
-				            var nickname = data.commentDBList[i].nickname;
-				            var aboveComId = data.commentDBList[i].aboveComId; //부모댓글번호 
+				        	var comId = data[i].comId;
+				            var userId = data[i].userId;
+				            var comDate = data[i].comDate;
+				            var comText = data[i].comText;
+				            var nickname = data[i].nickname;
+				            var aboveComId = data[i].aboveComId; //부모댓글번호 
 				            
-				            //console.log("commentseletall에서   ",comId, " ", userId, " ", comDate," ",nickname," ",aboveComId);
+				            console.log("commentseletall에서   ",comId, " ", userId, " ", comDate," ",nickname," ",aboveComId);
 				            ///////////
 				            
 				            ///답글 작성용 변수///
@@ -291,7 +276,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 				            }//if(comText!="삭제된 댓글입니다.") end
 				            
 				         
-				     	  if(userId=="<%=userId%>"){ 
+				     	  if(userId=="${fn:escapeXml(sessionScope.loginUser.userId)}"){ 
 					         	
 					         	if(comText!="삭제된 댓글입니다."){
 					         		mesg += "<div class='comment-actions'>";
@@ -330,17 +315,17 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 							
 						 }else{
 							
-							var length2 = replyJson.replyCommentDBList.length;
+							var length2 = replyJson.length;
 								
 									 for(var j = 0; j < length2; j++){
 									        	///자식 댓글 목록 뿌리기 용///
 									        	
-									        	comId = replyJson.replyCommentDBList[j].comId;
-									            userId  = replyJson.replyCommentDBList[j].userId;
-									            comDate  = replyJson.replyCommentDBList[j].comDate;
-									            comText  = replyJson.replyCommentDBList[j].comText;
-									            nickname  = replyJson.replyCommentDBList[j].nickname;
-									            aboveComId  = replyJson.replyCommentDBList[j].aboveComId; //부모댓글번호 
+									        	comId = replyJson[j].comId;
+									            userId  = replyJson[j].userId;
+									            comDate  = replyJson[j].comDate;
+									            comText  = replyJson[j].comText;
+									            nickname  = replyJson[j].nickname;
+									            aboveComId  = replyJson[j].aboveComId; //부모댓글번호 
 									            
 									            mesg += "<li class='comment-item'>";
 									            mesg += "<div class='comment-meta'>";
@@ -350,7 +335,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 									            mesg += "</div>";
 									            mesg += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' class='comment-content' style='border:none;outline:none' id='comText"+comId+"' readonly value='"+comText+"'>";
 												
-									            if(userId=="<%=userId%>"){ 
+									            if(userId == "${fn:escapeXml(sessionScope.loginUser.userId)}"){ 
 										         	
 										         	if(comText!="삭제된 댓글입니다."){
 										         		mesg += "<div class='comment-actions'>";
@@ -380,10 +365,10 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 				},//success end
 				
 				error : function(xhr, status, error){
-					console.log("에러코드 selectAll"+status);
+					console.log("에러코드 selectAll"+xhr);
 				}
 				
-			})//selectAll ajax
+			});//selectAll ajax
 			
 			//댓글 입력 후 텍스트 칸 비워주는 코드
 			$("#comtext").val("");
@@ -398,18 +383,18 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 		
 	}//replyComment end
 	
-	function replyCommentInsert(comId) {
+function replyCommentInsert(comId) {
 		
 		var aboveComId = comId;
 		var nickname2 =  $("#strong"+comId).text();
 		var userId2 = $("#replyCommentId"+comId).val();
-		var postId = <%= request.getParameter("postId")%>
+		var postId = <%= request.getAttribute("postId")%> 
 		console.log("replyCommentInsert에서" + nickname2,userId2,postId);
 		
 			$.ajax({
 			
 			type: "post",
-			url: "/acorn/ReplyCommentInsertServlet",
+			url: "Acorn/ReplyCommentInsert",
 			data:{
 				aboveComId : aboveComId, //부모댓글id
 				postId : postId, //게시글
@@ -434,7 +419,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 		
 		
 	}//replyCommentSend end
-
+	
 	
 	
 	function ReplyCommentSearch(comId) {
@@ -444,7 +429,7 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 			
 			type: "post",
 			async: false, 
-			url: "/acorn/ReplyCommentSelectListServlet",
+			url: "Acorn/ReplyCommentSelectList",
 			data:{
 				comId : comId
 				},
@@ -471,8 +456,8 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
 
 </script>	
 
-	 <input type="hidden" id="postidComment" name="postid" value=<%=request.getParameter("postId")%> > <!-- 굳이 고객한테 보일 필요가 없으니 hidden 태그 -->
-	 <input type="hidden" id="useridComment" name="userid" value="<%=userId%>" > <!--DB저장용 userid -->
+	 <input type="hidden" id="postidComment" name="postid" value=<%=request.getAttribute("postId")%> > <!-- 굳이 고객한테 보일 필요가 없으니 hidden 태그 -->
+	 <input type="hidden" id="useridComment" name="userid" value="${sessionScope.loginUser.userId}" > <!--DB저장용 userid -->
 	 <input type="hidden" id="abovecomidComment" name="abovecomid" value="" > 
 
 <div id="CommetList" style="margin-top: 20px;">
@@ -484,14 +469,16 @@ if(length2!=0) {//자식댓글이 있다는 뜻  update 치면 됨
             <div class="card-header">댓글 작성</div>
             <div class="card-body">
                 <span id="nickname" name="nickname">
-                    <% if (userId == null) { %>
+                
+                <c:if test="${empty sessionScope.loginUser.userId}">
                         로그인을 해주세요.
-                    <% } else { %>
-                        <%= nickname %>
-                    <% } %>
+                </c:if>       
+                <c:if test="${!empty sessionScope.loginUser.userId}"> 
+                        ${sessionScope.loginUser.nickname }
+                </c:if>
                 </span>
                 <br>
-                <textarea id="comtext" class="form-control" name="comtext" style="height: 100px;" placeholder="댓글을 입력하세요. 지나친 욕설/비방 작성 시 사이트 이용에 제재를 받을 수 있습니다." <% if(userId == null) { %>disabled<% } %> ></textarea>
+                <textarea id="comtext" class="form-control" name="comtext" style="height: 100px;" placeholder="댓글을 입력하세요. 지나친 욕설/비방 작성 시 사이트 이용에 제재를 받을 수 있습니다."<c:if test="${empty sessionScope.loginUser.userId}">disabled</c:if>></textarea>
                 <div style="text-align: right">
                     <input type="button" id="sendButton" value="등록" class="btn btn-action btn-spacing" style="margin-top: 10px;">
                 </div>

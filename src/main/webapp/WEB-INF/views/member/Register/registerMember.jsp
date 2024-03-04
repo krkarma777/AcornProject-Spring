@@ -11,6 +11,7 @@
 	<meta charset="UTF-8">
 	<title>회원 가입</title>
 	<link rel="stylesheet" type="text/css" href="<c:url value='/css/member/register_input.css'/>">
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
@@ -27,11 +28,11 @@
 
 			<!-- 비밀번호 입력칸(6글자 이상)(반드시 입력되어야 함) -->
 			<label for="userPw">비밀번호 (최소 6글자)</label> 
-				<input type="password" id="userPw" name="userPw" minlength="6" required> 
+				<input type="password" id="userPw" name="userPw" class="pw" minlength="6" required> 
 
 			<!-- 비밀번호 재입력칸(6글자 이상)(반드시 입력되어야 함) -->
 			<label for="userPwConfirm">비밀번호 재입력</label> 
-				<input type="password" id="userPwConfirm" name="userPwConfirm" minlength="6" required>
+				<input type="password" id="userPwConfirm" name="userPwConfirm" class="pw" minlength="6" required>
 				<!-- 비밀번호와 비밀번호 재입력이 상이할 경우, 문구 출력 -->
 				<span id="pwMismatch" style="color: red;"></span> 
 			
@@ -84,7 +85,7 @@
 						@ 
 					<input type="text" id="userEmailDomain" name="userEmailDomain" class ="userEmail" required> 
 					<select id="domainSelect" name="domainSelect" class ="userEmail" onchange="domainSelectMethod(this.value)">
-						<option value="" selected>직접 입력</option>
+						<option id="domainDefault" value="" selected>직접 입력</option>
 						<option value="naver.com">naver.com</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="hanmail.net">hanmail.net</option>
@@ -96,22 +97,64 @@
 				<span id="confirmUserEmailError" style="color: red;"></span>
 				<span id="loadingSpinner_for_Email" class="loadingSpinner"></span>
 				
+				<div style="display: flex; gap: 5px;">
+					<input type="text" id="certification" name="certification" required="required">
+					<input type="button" id="certificationBTN" value="인증번호 발송">
+				</div>
+				<span id = "certificationAnswer"></span>
+
+
+
 			<button id="register_button" type="submit">가입</button>
 		</form>
 	</div>
 
 
 	<script type="text/javascript">
+	
+		//페이지 로딩되면 기존 인증번호 쿠기 삭제
+	   $(function(){
+		   deleteCookeeFunction()
+	    });
+
+		function deleteCookeeFunction(){
+			 $.ajax({
+		            type: "GET",
+		            url: "<c:url value='/deleteCookiee'/>", 
+		            success: function(response) {
+		                if (response === "complete") {
+		                	console.log("쿠키 삭제")
+		                } else {
+		                	console.log("쿠키 삭제  XXXXXXXXXXXXX")
+		                }
+		            },
+		            error: function(error) {
+		                console.error("쿠기 삭제 에러:", error);
+		            }
+		        });
+
+			   //쿠키값 삭제 확인 콘솔
+	/* 	       
+				var myCookieValue = Cookies.get('confirmNum');
+		        if (myCookieValue) {
+		            console.log('쿠키 값:', myCookieValue);
+		        } else {
+		            console.log('쿠키가 없습니다.');
+		        } 
+	*/
+		}
+		
 		//ID 새창 열기
 		function openIdWindow() {
 			var popup = window.open("<c:url value='/IdDupilicate'/>", "아이디 확인", "width=400,height=200");
-			
-			popup.onbeforeunload = function() {
-				var confirmedUserId = popup.$("#confirmUserId").val();
-				$("#userId").val(confirmedUserId);
-			};
 		}
-
+		
+		//PW입력하면 에러 문구 삭제
+		$(".pw").on("input", function(){
+			
+			$("#pwMismatch").text("");
+			
+		});
 		
 		//닉네임 중복 확인
 		var prevNickname = ""; 
@@ -231,11 +274,11 @@
 			               	$("#userIdButton").prop("disabled", false);
 		                }
 			        })
-			        prevphoneNum = userPhoneNum
-			    };
-		    } else {
-		    	errorSpan.text("");
-			}
+			    } else {
+			    	errorSpan.text("");
+				};
+			    prevphoneNum = userPhoneNum
+		    } 
 		});
 		
 		
@@ -315,12 +358,18 @@
 		                }
 			            
 			        });
-			        prevUserEmail = userEmail
-			        console.log(prevUserEmail)
+			    } else {
+			    	errorSpan.text("");
 			    };
-		    } else {
-		    	errorSpan.text("");
+		    	prevUserEmail = userEmail
 			}
+		    
+		    //인증 후 이메일 아이디 변경 시 발동
+		    if ($("#certificationAnswer").text() == "확인되었습니다."){
+		    	$("#certification").val("");
+		    	$("#certificationAnswer").text("이메일이 변경되었습니다. 다시 인증해주세요.");
+		    	deleteCookeeFunction();
+		    }
 		});
 		
 		
@@ -353,87 +402,168 @@
 			                console.error("이메일 중복 검사 에러:", error);
 			            }
 			        });
-			        prevUserEmail = userEmail
-			        console.log(prevUserEmail)
-			    	}
 			    } else {
 			    	errorSpan.text("");
-				}
+			    };
+		    	prevUserEmail = userEmail
+			}
+		    
+		    //인증 후 이메일 도메인  변경 시 발동
+		    if ($("#certificationAnswer").text() == "확인되었습니다."){
+		    	$("#certification").val("");
+		    	$("#certificationAnswer").text("이메일이 변경되었습니다. 다시 인증해주세요.");
+		    	deleteCookeeFunction();
+		    }
 		});
 		
 		
+		
+		//이메일 인증 번호 발송 에이젝스
+		$("#certificationBTN").on("click", function() {
+			var userEmailId = $("#userEmailId").val();
+		    var userEmailDomain = $("#userEmailDomain").val();
+		    var userEmail = userEmailId+"@"+userEmailDomain;
+		    var errorSpan = $("#certificationAnswer");
+		    var certification = $("#certification");
+		    
+		    if($("#confirmUserEmailError").text() == "" && $("#confirmUserEmailIdError").text() == ""){
+			    //이메일 아이디와 이메일 도메인이 모두 있을 때 출력
+			    if (userEmailId && userEmailDomain) {
+			        $.ajax({
+			            type: "POST",
+			            url: "<c:url value='/joinEmail'/>", 
+			            data: {
+			            	userEmail: userEmail,
+			            },
+			            success: function(response) {
+			            	alert("인증 번호가 발송되었습니다. 이메일을 확인해주세요.")
+			            	certification.val("");
+			            	errorSpan.text("");
+			            	certificationFocusout()
+			            },
+			            error: function(error) {
+			                console.error("이메일 인증 번호 발송 에러:", error);
+			            }
+					});
+			    } else {
+					alert("이메일을 입력해주세요.")
+				    $("#certification").val("");
+					errorSpan.text("");
+					$("#userEmailId").focus();
+			    }
+		    } else {
+		    	alert("중복된 이메일입니다.");
+		    	$("#userEmailId").val("");
+		    	$("#domainSelect").val("");
+		    	domainSelectMethod("");
+				$("#userEmailId").focus();
+		    }   
+		});
+		
+		//이메일 인증 번호 확인 
+		var prevCertification = ""; 
+		
+		$("#certification").on("focusout", function() {
+			certificationFocusout()
+		});
+		
+		function certificationFocusout(){
+			var certification = $("#certification").val();
+		    var errorSpan = $("#certificationAnswer");
+		    
+		    //이메일 아이디와 이메일 도메인이 모두 있을 때 출력
+		    if (certification != prevCertification) {
+			    if (userEmailId && userEmailDomain) {
+			        $.ajax({
+			            type: "POST",
+			            url: "<c:url value='/CertificationAnswer'/>", 
+			            
+			            beforeSend: function () {
+		                    // AJAX 요청 전에 로딩 표시 보여주기
+		                	$("#loadingSpinner_for_Email").show();
+	                },
+			            data: {
+			            	certification: certification,
+			            },
+			            success: function(response) {
+			            	//이메일 인증번호와 쿠키가 된 인증번호가 일치할 경우
+			                if (certification == "") {
+			                	errorSpan.text("");
+			                } else if (response === "confirm") {
+			                	errorSpan.text("확인되었습니다."); 
+			                } else {
+			                	errorSpan.text("인증번호가 다릅니다. 확인해주세요.");
+			                }
+			            },
+			            error: function(error) {
+			                console.error("이메일 인증 번호 검사 에러:", error);
+			            }, 
+			            
+			            complete: function () {
+		                    // AJAX 요청 완료 후에 로딩 표시 숨기기
+		                	$("#loadingSpinner_for_Email").hide();
+		                }
+			        });
+			    } else {
+			    	errorSpan.text("");
+			    };
+			    prevCertification = certification
+			}
+		}
+
 		//submit 제한규칙
 		$("#registerForm").submit(function(event) {
 			return validateForm(event);
 		});
-
 		
 		function validateForm(event) {
 			
-			if ($(".loadingSpinner").is(":visible")) {
-                alert("잠시만 기다려주세요");
-                return false;
-            }
-			
-			//아이디가 공백이면 경고창 + 전송 중지 + 아이디 새창 버튼 focus
-			if($("#userId").val() == ""){
-				alert("아이디를 입력해주세요");
-				$("#userIdButton").focus();
-				return false;
-			}
-			
-			//비밀번호와 재입력된 비밀번호가 일치하는지 확인
-			var password = $("#userPw").val();
-			var confirmPassword = $("#userPwConfirm").val();
+		    var errorMessage = ""; // 에러 메시지를 저장할 변수
 
-			//일치하지 않을 경우, 경고창 + 전송 중지 + 비밀번호 focus
-			if (password !== confirmPassword) {
-				$("#pwMismatch").text("입력한 비밀번호가 일치하지 않습니다.");
-				alert("비밀번호 일치 여부를 확인해주세요");
-				$("#userPw").focus();
-				return false;
-			} else {
-				$("#pwMismatch").text("");
-			}
+		    switch(true) {
+		        case $("#userId").val() == "":
+		            errorMessage = "아이디를 입력해주세요";
+		            $("#userIdButton").focus();
+		            break;
 
-			//닉네임 중복 ajax가 출력된 경우, 경고창 + 전송 중지 + 닉네임 focus
-			if($("#confirmNicknameError").text() != ""){
-				alert("닉네임 중복 여부를 확인해주세요");
-				$("#nickname").focus();
-				return false;
-			}
-			
-			//핸드폰 번호에 숫자만 입력되어 있지 않은 경우, 경고창 + 전송 중지 + 핸드폰 번호 focus
-			var phoneNum2 = $("#userPhoneNum2").val();
-			var phoneNum3 = $("#userPhoneNum3").val();
+		        case $("#userPw").val() !== $("#userPwConfirm").val():
+		            errorMessage = "입력한 비밀번호가 일치하지 않습니다.";
+		            $("#pwMismatch").text(errorMessage);
+		            $("#userPw").focus();
+		            break;
 
-			if (!isNumeric(phoneNum2) || !isNumeric(phoneNum3)) {
-				$("#confirmPhoneNumError_notNumber").text("핸드폰 번호에는 숫자만 입력해주세요.");
-				alert("핸드폰 번호를 확인해주세요");
-				$("#userPhoneNum2").focus();
-				return false;
-			} else {
-				$("#confirmPhoneNumError_notNumber").text("");
-			}
+		        case $("#confirmNicknameError").text() != "":
+		            errorMessage = "닉네임 중복 여부를 확인해주세요";
+		            $("#nickname").focus();
+		            break;
 
-			//핸드폰 번호 중복 ajax가 출력된 경우, 경고창 + 전송 중지 + 핸드폰 번호 focus
-			if($("#confirmPhoneNumError").text() != ""){
-				alert("핸드폰 번호 중복 여부를 확인해주세요");
-				$("#userPhoneNum2").focus();
-				return false;
-			}
-			
-			//이메일 중복 ajax가 출력된 경우, 경고창 + 전송 중지 + 이메일 아이디 focus
-			//이메일 아이디에 영어나 숫자가 아닌 문자가 들어간 경우, 경고창 + 전송 중지 + 이메일 아이디 focus
-			if($("#confirmUserEmailError").text() != "" || $("#confirmUserEmailIdError").text() != ""){
-				alert("이메일을 재검토해주세요");
-				$("#userEmailId").focus();
-				return false;
-			}
-				
-			return true;
-		}
+		        case $("#confirmPhoneNumError").text() != "":
+		            errorMessage = "핸드폰 번호 중복 여부를 확인해주세요";
+		            $("#userPhoneNum2").focus();
+		            break;
+
+		        case $("#confirmUserEmailError").text() != "" && $("#confirmUserEmailIdError").text() != "":
+		            errorMessage = "이메일을 재검토해주세요";
+		            $("#userEmailId").focus();
+		            break;
+
+		        case $("#certificationAnswer").text() != "확인되었습니다.":
+		            errorMessage = "이메일 인증을 확인해주세요";
+		            $("#certification").focus();
+		            break;
+
+		        default:
+		            // 모든 제약을 통과하면 submit
+		            $("#registerForm")[0].submit();
+		            return true;
+		    }
+
+		    // 에러 메시지가 있는 경우 경고창 출력
+		    alert(errorMessage);
+		    return false;
+		};
 	</script>
+
 
 
 

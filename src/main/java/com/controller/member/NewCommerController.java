@@ -25,6 +25,7 @@ public class NewCommerController {
 	@RequestMapping(value = "/RegisterTerms", method = RequestMethod.POST)
 	public String RegisterTerms(HttpServletRequest request, String userName, String ssn1, String ssn2, HttpSession session) {
 		MemberDTO dto = loginServ.findUserId(userName, ssn1, ssn2);
+		System.out.println(userName);
 		
 		//이름과 SSN이 모두 일치하는 DB정보가 있을 경우, 기존 유저 있음 jsp로 이동
 		if (dto != null) {

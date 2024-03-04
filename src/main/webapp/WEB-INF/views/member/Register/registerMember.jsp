@@ -57,7 +57,7 @@
 			
 			<!-- 유저 닉네임 입력칸(최소 2글자 이상)(반드시 입력) -->
 			<label for="nickname">유저 닉네임 (최소 2글자)</label> 
-				<input type="text" id="nickname" name="nickname" minlength="2" required>
+				<input type="text" id="nickname" name="nickname" maxlength="10" minlength="2" required>
 				<!-- DB에 저장된 닉네임이 있을 경우, 문구 출력 --> 
 				<span id="confirmNicknameError" style="color: red;"></span>
 				<span id="loadingSpinner_for_nickname" class="loadingSpinner"></span>
@@ -81,7 +81,7 @@
 			<!-- 유저 이메일(반드시 입력)(select를 통해 도메인 입력 가능) -->
 			<label for="userEmailDomain">이메일</label>
 				<div style="display: flex; gap: 5px;">
-					<input type="text" id="userEmailId" name="userEmailId" class ="userEmail" required>
+					<input type="text" id="userEmailId" name="userEmailId" class ="userEmail" maxlength="30" required>
 						@ 
 					<input type="text" id="userEmailDomain" name="userEmailDomain" class ="userEmail" required> 
 					<select id="domainSelect" name="domainSelect" class ="userEmail" onchange="domainSelectMethod(this.value)">

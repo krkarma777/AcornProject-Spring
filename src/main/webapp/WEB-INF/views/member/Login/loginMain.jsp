@@ -30,7 +30,7 @@
 	        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 	      </div>
 	      <span>외부 사이트 이용하실껀가요?</span>
-	      <input type="text" id="userName" name="userName" required placeholder="성함" />
+	      <input type="text" id="userName" name="userName" maxlength="10" required placeholder="성함" />
 	      <input type="text" class="ssn" id="ssn1" name="ssn1" maxlength="6" required placeholder="주민번호 앞자리"/>
 	      <input type="password" class="ssn" id="ssn2" name="ssn2" maxlength="7" required placeholder="주민번호 뒷자리"/>
 	      <button>회원가입으로</button>

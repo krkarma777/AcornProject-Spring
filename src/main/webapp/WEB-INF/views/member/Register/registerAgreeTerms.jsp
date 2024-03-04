@@ -18,7 +18,7 @@
 
     <div class="container">
     
-        <h1>${userName}님의 약관 동의 페이지</h1>
+        <h1>약관 동의 페이지</h1>
 
         <form id="agreementForm" action="<c:url value='/CheckExistUser'/>" method="post">
 		

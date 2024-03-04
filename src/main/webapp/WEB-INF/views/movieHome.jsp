@@ -99,7 +99,7 @@
 			</div>
 			<div class="inner">
 				<%for(int i=1; i<=movieTopList.size()-5; i++){ %>
-					<a href="content-page?contId=<%=movieTopList.get(i-1).getContId() %>"><img class="innerImage" src="<%=movieTopList.get(i-1).getContImg() %>" width="230px" height="330px"></a>
+					<a href="showContent?contId=<%=movieTopList.get(i-1).getContId() %>"><img class="innerImage" src="<%=movieTopList.get(i-1).getContImg() %>" width="230px" height="330px"></a>
 				<%} %>
 			</div>
 			<div class="inner">
@@ -113,8 +113,8 @@
 				<%} %>
 			</div>
 		</div>
-		<button id="prevBtn"><img src="images/chevron-left.svg" width="20px" height="30px"></button>
-		<button id="nextBtn"><img src="images/chevron-right.svg" width="20px" height="30px"></button>
+		<button id="prevBtn"><img src="image/chevron-left.svg" width="20px" height="30px"></button>
+		<button id="nextBtn"><img src="image/chevron-right.svg" width="20px" height="30px"></button>
 	</div>
 	
 	<div style="height:20px;"></div>

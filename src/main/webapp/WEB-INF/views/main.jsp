@@ -23,17 +23,17 @@
 			style="height: 100%;">
 			<div class="align-self-center" style="background-color: transparent;">
 				<a href="?cg=movie"><img class="rounded-2"
-					src="images/camera-reels.svg" width="250px" height="250px"></a>
+					src="image/camera-reels.svg" width="250px" height="250px"></a>
 			</div>
 			<!-- <a>누르면 MoveToContentsHomeServlet로 이동 -->
 			<div class="align-self-center px-5"
 				style="background-color: transparent">
 				<a href="?dg=tv"><img class="rounded-2"
-					src="images/tv.png" width="250px" height="250px"></a>
+					src="image/tv.png" width="250px" height="250px"></a>
 			</div>
 			<div class="align-self-center" style="background-color: transparent">
 				<a href="?cg=book"><img class="rounded-2"
-					src="images/book.svg" width="250px" height="250px"></a>
+					src="image/book.svg" width="250px" height="250px"></a>
 			</div>
 		</div>
 	</div>

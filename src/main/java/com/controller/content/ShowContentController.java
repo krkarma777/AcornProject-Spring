@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dto.ContentDTO;
@@ -67,5 +68,25 @@ public class ShowContentController {
 		}
 		
 		return nextPage;
+	}
+	
+	@RequestMapping("/showContent")
+	public String showContent(String contId, Model m, HttpSession session) {
+		ContentDTO content = service.selectContent(contId);
+		m.addAttribute("content", content);
+		
+		MemberDTO login = (MemberDTO)session.getAttribute("loginUser");
+		
+		String likeUserId = null;
+		if(login!=null) {
+			likeUserId = login.getUserId();
+		}
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("contId", contId);
+		map.put("likeUserId", likeUserId);
+		List<ReviewDTO> reviewList = service.selectReviews(map);
+		m.addAttribute("reviewList", reviewList);
+		return "content/showContent";
 	}
 }

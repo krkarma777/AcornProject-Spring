@@ -100,8 +100,4 @@ public ReviewDTO writeReview(ReviewDTO review) {
 		int num = session.update("reportReview", report);
 	}
 
-	public List<ContentDTO> selectTop() {
-		List<ContentDTO> movieTopList = session.selectList("selectTop");
-		return movieTopList;
-	}
 }

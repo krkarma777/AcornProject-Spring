@@ -74,8 +74,4 @@ public class ReviewService {
 		dao.reportReview(report);
 	}
 
-	public List<ContentDTO> selectTop() {
-		List<ContentDTO> movieTopList = dao.selectTop();
-		return movieTopList;
-	}
 }

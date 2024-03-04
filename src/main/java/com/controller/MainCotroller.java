@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dto.ContentDTO;
 import com.dto.board.PostPageDTO;
+import com.service.MainService;
 import com.service.PostService;
 import com.service.ReviewService;
 
@@ -20,13 +21,13 @@ public class MainCotroller {
     @Autowired
     PostService service;
     @Autowired
-    ReviewService rService;
+    MainService mService;
 
     @GetMapping("/")
     public String mainView(Model model, @RequestParam(value = "cg", required = false) String category) {
         String nextPage = "main";
 
-        List<PostPageDTO> movieList = service.selectAll(new HashMap<String, String>() {
+        List<PostPageDTO> moviePostList = service.selectAll(new HashMap<String, String>() {
             {
                 put("board", "movie");
                 put("postCount", "5");
@@ -47,7 +48,7 @@ public class MainCotroller {
             }
         });
 
-        model.addAttribute("movieList", movieList);
+        model.addAttribute("movieList", moviePostList);
         model.addAttribute("movieMeetList", movieMeetList);
         model.addAttribute("movieInfoList", movieInfoList);
 
@@ -55,7 +56,7 @@ public class MainCotroller {
             switch (category) {
             case "movie":
             	//영화 가져오기(인기 순은 아직)
-	    		List<ContentDTO> movieTopList = rService.selectTop();
+	    		List<ContentDTO> movieTopList = mService.selectTop();
 	    		model.addAttribute("movieTopList", movieTopList);
                 nextPage = "movieHome";
                 break;

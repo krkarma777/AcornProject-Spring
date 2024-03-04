@@ -28,7 +28,7 @@ public class NewCommerController {
 		
 		//이름과 SSN이 모두 일치하는 DB정보가 있을 경우, 기존 유저 있음 jsp로 이동
 		if (dto != null) {
-			request.setAttribute("foundUser", dto);
+			request.setAttribute("dto", dto);
 			return "member/Register/viewExistUserdata";
 
 		//이름과 SSN이 모두 일치하는 DB정보가 없을 경우, 회원가입 2단계로 이동

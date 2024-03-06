@@ -39,7 +39,7 @@
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="mapperLocations">
 			<list>
-				<value>classpath:com/config/AdminBoardMapper.xml</value>
+				<value>classpath:com/config/AdminReportMapper.xml</value>
 				<value>classpath:com/config/AdminMemberMapper.xml</value>
 				<value>classpath:com/config/MemberMapper.xml</value>
 				<value>classpath:com/config/MessageMapper.xml</value>
@@ -51,8 +51,9 @@
 		</property>
 		<property name="typeAliases">
 			<list>
-				<value>com.dto.AdminBoardDTO</value>
+				<value>com.dto.AdminRprtdDTO</value>
 				<value>com.dto.AdminMemberDTO</value>
+				<value>com.dto.AdminRestrictedMemberDTO</value>
 				<value>com.dto.CommentDTO</value>
 				<value>com.dto.ContentDTO</value>
 				<value>com.dto.MemberDTO</value>

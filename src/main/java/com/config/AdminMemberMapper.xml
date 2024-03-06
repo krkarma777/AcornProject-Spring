@@ -8,4 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          select userid, username, nickname, usertype, usersigndate from memberDB where userid like #{SearchValue}
     </select>
 	
+	<select id = "getRestrictedMemberList" resultType="AdminRestrictedMemberDTO">
+		select * from adminrestrictedMember
+	</select>
+	
 </mapper>

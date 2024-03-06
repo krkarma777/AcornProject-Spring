@@ -109,17 +109,17 @@ public class PostService {
 
 	}//
 
-	// 임시저장글 select
-	public List<PostSaveDTO> postSaveSelect(String userId) {
-		return dao.postSaveSelect(userId);
+	// 임시저장글 list select
+	public List<PostSaveDTO> listPostSave(String userId) {
+		return dao.listPostSave(userId);
 	}
 
 	// 임시저장글 delete
-	public void deletePostSave(String postSaveId) {
+	public void deletePostSave(Long postSaveId) {
 		dao.deletePostSave(postSaveId);
 
 	}
-
+	//임시글 select(불러오기)
 	public PostSaveDTO selectPostSave(String postSaveId) {
 		PostSaveDTO postsave = dao.selectPostSave(postSaveId);
 		return postsave;

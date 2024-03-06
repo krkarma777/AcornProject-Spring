@@ -206,8 +206,8 @@
 		VALUES (postSaveIdseq.NEXTVAL, #{userId}, #{postSaveTitle}, #{postSaveText}, SYSDATE )
 	</insert>
 	
-	<!-- 임시글 select -->
- 	<select id="postSaveSelect" parameterType="String" resultType="postSaveDTO">
+	<!-- 임시글 list select -->
+ 	<select id="listPostSave" parameterType="String" resultType="postSaveDTO">
  		select postSaveId, userId, postSaveTitle, postSaveText, TO_CHAR(postSaveDate, 'YYYY-MM-DD HH24:MI:SS') as postSaveDate
 		from postSaveDB 
 		where userId = #{userId}
@@ -221,8 +221,8 @@
 	</select>
 	
 	<!-- 임시글 삭제 -->
-	<delete id="deletePostSave" parameterType="long">
-		DELETE FROM postSaveDB WHERE postSaveId = ${postSaveId}
+	<delete id="deletePostSave" parameterType="Long">
+		DELETE FROM postSaveDB WHERE postSaveId = #{postSaveId}
 	</delete>
 	
 	<!-- 임시글 불러오기 -->

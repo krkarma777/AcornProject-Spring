@@ -59,12 +59,12 @@ public class PostDAO {
 		return session.insert("insertPostSave", dto);
 	}
 
-	public List<PostSaveDTO> postSaveSelect(String userId) {
+	public List<PostSaveDTO> listPostSave(String userId) {
 
-		return session.selectList("postSaveSelect", userId);
+		return session.selectList("listPostSave", userId);
 	}
 
-	public void deletePostSave(String postSaveId) {
+	public void deletePostSave(Long postSaveId) {
 		session.delete("deletePostSave", postSaveId);
 	}
 

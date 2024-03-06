@@ -4,13 +4,15 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <%
-	String userId = (String) request.getAttribute("userId");
-	String boardName = request.getParameter("bn");
-	String savecount = request.getParameter("savecount");
+String userId = (String) request.getAttribute("userId");
+String boardName = request.getParameter("bn");
+String savecount = request.getParameter("savecount");
 %>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -21,6 +23,7 @@
 	rel="stylesheet"
 	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
 	crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 <!-- jQuery -->
 <script
@@ -169,6 +172,7 @@ body {
 	font-family: 'Pretendard-Regular';
 }
 
+
 /* 임시저장글 모달창 내용 스타일 */
 .modal-content {
 	background-color: #fefefe;
@@ -177,6 +181,7 @@ body {
 	border: 1px solid #888;
 	width: 80%;
 }
+
 
 /* 임시저장 삭제 버튼 스타일 */
 .delete-btn {
@@ -194,9 +199,7 @@ body {
 
 
 <script>
-  
 	
-    
 	 // jQuery를 사용한 입력란 이벤트 처리
 		$(document).ready(function() {
 
@@ -208,17 +211,36 @@ body {
 			// 임시저장 버튼 클릭 시 호출되는 함수
 			$('#save').click(save);
 			
-			//임시저장목록 버튼 클릭 시 모달창 나타내기
-			$('#saveModal').click(function(){});
+			//임시저장목록 버튼
+			$("#saveModal").click(function(){
+ 		        $.ajax({
+		            type: 'POST',
+		            url: '/acorn/post/saveList',
+		            success: function(response) {
+		                // 받아온 데이터를 모달창에 표시
+		                
+		                // 모달창 보이기
+		                $("#saveModal").modal('show');
+		            },
+		            error: function(xhr, status, error) {
+		                console.error(xhr.responseText);
+		            }
+		        }); //end ajax
+		        
+/* 				window.location.href = "post/saveList";
+		        $('#myModal').modal('show'); */
+			});
 			
-});//end doc
+	});//end doc
+	
 
-	// 임시저장글 불러오기
-	function loadPostSave(postSaveId) {
+	// 임시저장목록에서 제목클릭 시 데이터를 가져와 입력란에 표시하는 함수
+	function loadSavePost(postSaveId) {
+	    // AJAX 요청을 사용하여 해당 임시저장 글의 데이터를 가져옴
 	    $.ajax({
 	        type: 'post',
-	        url: '/acorn/board/saveSelect',
-	        dataType : 'json',
+	        url: '/acorn/post/saveSelect',
+	        dataType : 'text',
 	        data: {
 	            postSaveId: postSaveId
 	        },
@@ -231,41 +253,42 @@ body {
 	            $('#postText').val(response.postSaveText);
 	        },
 	        error: function(xhr, status, error) {
+	            // 실패 시 오류 메시지 출력
+	            
 	            console.log(error);
 	        }
 	    });//end ajax
-	}//end loadSavePost	
-		
+	}//end loadSavePost
+
+
+
 	// 임시저장 삭제 함수
 		function deleteSave(postSaveId){
-	    // 삭제 전에 사용자에게 확인을 받는다.
-	    if (confirm('정말로 삭제하시겠습니까?')) {
 	        // 확인 시 AJAX 요청
 	        $.ajax({
 	            type: 'POST',
-	            url: '/acorn/board/saveDelete',
+	            url: '/acorn/post/saveDelete',
 	            data: {
 	                postSaveId: postSaveId
 	            },
 	            success: function(response) {
-	                // 성공 시 페이지 새로고침
-	                location.reload();
-	                alert('임시저장글이 삭제되었습니다.');
+	            	alert(response);
+	            	//location.reload();
 	            },
 	            error: function(xhr, status, error) {
 	                console.error(xhr.responseText);
 	            }
 	        }); //end ajax
-	  	  }
 		
-		};//end 임시저장 삭제 함수
+	};//end 임시저장 삭제 함수
 		
 		//임시저장 버튼 클릭 시 호출되는 함수
-		function save() {
+		function save(event) {
+			event.preventDefault();
+		
 		    // 제목과 내용을 가져옴
 		    var title = $('#postTitle').val();
 		    var content = tinymce.activeEditor.getContent();
-		    var userId = "<%=userId%>";
 		
 		    // 바이트 길이 계산 함수
 		    function getByteLength(str) {
@@ -297,18 +320,16 @@ body {
 		    // AJAX 요청
 		    $.ajax({
 		        type: 'POST',
-		        url: '/acorn/board/save',
+		        url: '/acorn/post/save',
 		        data: {
-		            postTitle: title,
-		            postText: content,
-		            userId: userId
+		        	postSaveTitle: title,
+		            postSaveText: content,
 		        },
 		        success: function(response) {
-		            // 성공 시 알림
 		            alert('게시글이 임시저장되었습니다.');
+		            window.location.reload();
 		        },
 		        error: function(xhr, status, error) {
-		            // 실패 시 오류 메시지 출력
 		            console.error(xhr.responseText);
 		        }
 		    }); //end ajax
@@ -411,7 +432,7 @@ body {
 </head>
 <body>
 	<!-- 네비게이션바 -->
-<%-- 	<jsp:include page="//common/navbar.jsp"></jsp:include> --%>
+	<jsp:include page="//common/navbar.jsp"></jsp:include>
 
 
 	<div class="container mt-5 editor-wrapper">
@@ -450,75 +471,70 @@ body {
 				value="<%=request.getParameter("bn")%>">
 
 			<div class="mb-3">
-				<textarea name="postText" class="form-control"
-					placeholder="내용을 입력하세요"></textarea>
+				<textarea name="postText" id="postText"
+					class="form-control" placeholder="내용을 입력하세요"></textarea>
 			</div>
 
 			<div class="row">
 				<button type="submit" class="btn btn-primary submit-button">작성</button>
 				<button type="button" class="btn btn-primary submit-button" id="save">임시저장</button>
-				<button type="button" class="btn btn-primary submit-button" id="saveModal">임시저장목록</button>
+				<button type="button" class="btn btn-primary submit-button" data-bs-toggle="modal" data-bs-target="#myModal" id="saveModal" >
+  					임시저장목록
+				</button>
 			</div>
 		</form>
 	</div>
 
-	<!-- 임시저장 모달 창 -->
-	<div id="myModal" class="modal">
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<table class="table table-bordered"
-				style="table-layout: fixed; width: 100%;">
-				<colgroup>
-					<col style="width: 15%;">
-					<col style="width: 45%;">
-					<col style="width: 25%;">
-					<col style="width: 15%;">
-				</colgroup>
+<!-- 임시저장 모달창 -->
+<div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel" style="font-weight: bold;">임시 저장 목록</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<table class="table">
+		    <colgroup>
+		        <col style="width: 75%;">
+		        <col style="width: 25%;">
+		    </colgroup>
 
-				<tr>
-					<th style="text-align: center;">순번</th>
-					<th style="text-align: center;">제목</th>
-					<th style="text-align: center;">저장일</th>
-					<th style="text-align: center;">삭제</th>
-				</tr>
+		
+		    <c:if test="${not empty postSaveList}">
+		        <c:forEach var="saveList" items="${postSaveList}">
+		            <tr>
+		                <td>
+			                <span style="font-size: 20px;">${saveList.postSaveTitle}</span><br>
+			                <span style="color: gray;">${saveList.postSaveDate}</span>
+		                </td>
+		                <td style="text-align: center; vertical-align: middle;">
+		                	<div>
+			                    <button class="delete-btn" onclick="deleteSave(${saveList.postSaveId})" style="background: none; border: none;">
+			                        <i class="fa-regular fa-trash-can"></i>
+			                    </button>
+		                    </div>
+		                </td>
+		            </tr>
+		        </c:forEach>
+		    </c:if>
+		
+		    <c:if test="${empty postSaveList}">
+		        <tr>
+		            <td colspan="4" style="text-align: center;">임시 저장된 글이 없습니다.</td>
+		        </tr>
+		    </c:if>
+		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 임시저장 모달창 끝-->
 
-				<%
-				List<PostSaveDTO> postSaveList = (List<PostSaveDTO>) request.getAttribute("postSaveList");
-				if (postSaveList != null && !postSaveList.isEmpty()) {
-					int n = 1;
-					for (int i = 0; i < postSaveList.size(); i++) {
-						PostSaveDTO postSave = postSaveList.get(i);
-						Long postSaveId = postSave.getPostSaveId();
-						String postSaveTitle = postSave.getPostSaveTitle();
-						String postSaveDate = postSave.getPostSaveDate();
-						System.out.println(postSaveDate);
-				%>
-				<tr>
-					<td style="text-align: center;"><%=n%></td>
-					<td><b onclick="loadPostSave(<%=postSaveId%>)"><%=postSaveTitle%></b></td>
-					<td style="text-align: center;"><%=postSaveDate%></td>
-					<td style="text-align: center;">
-						<button class="delete-btn" onclick="deleteSave(<%=postSaveId%>)">
-							<i class="fa-regular fa-trash-can"></i>
-						</button>
-					</td>
-				</tr>
-
-				<%
-				n++;
-				} //end for
-				} else {
-				%>
-				<tr>
-					<td colspan="4" style="text-align: center;">임시 저장된 글이 없습니다.</td>
-				</tr>
-				<%
-				}
-				%>
-
-			</table>
-		</div>
-	</div>
+	
 
 	<script>
 

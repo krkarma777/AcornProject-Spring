@@ -99,4 +99,5 @@ public ReviewDTO writeReview(ReviewDTO review) {
 	public void reportReview(ReportDTO report) {
 		int num = session.update("reportReview", report);
 	}
+
 }

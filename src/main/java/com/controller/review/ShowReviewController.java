@@ -51,4 +51,9 @@ public class ShowReviewController {
 
 		return nextPage;
 	}
+	
+	@RequestMapping("/allReview")
+	public String allReview() {
+		return "review/allReview";
+	}
 }
